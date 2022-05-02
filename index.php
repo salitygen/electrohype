@@ -37,7 +37,7 @@
 		</div>
 		<div id="head" class="w100">
 			<div class="center">
-				<a class="logo" href="/ru/"><img src="/assets/img/logo.svg"></a>
+				<a class="logo" href="/"><img src="/assets/img/logo.svg"></a>
 				<div class="buttons">
 					<nav class="moduletable_menu">
 						<ul class="nav menu mod-list">
