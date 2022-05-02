@@ -59,31 +59,31 @@
 						<ul class="nav menu mod-list">
 							<li>
 								<a href="/action" class="button">
-									<img src="/images/styles/sale.svg" alt="Акции">
+									<img src="/assets/img/sale.svg" alt="Акции">
 									<span>Акции</span>
 								</a>
 							</li>
 								<li>
 								<a href="/compare" class="button">
-									<img src="/images/styles/compare.svg" alt="Сравнить">
+									<img src="/assets/img/compare.svg" alt="Сравнить">
 									<span>Сравнить</span>
 								</a>
 							</li>
 							<li>
 								<a href="/favorites" class="button">
-									<img src="/images/styles/heart.svg" alt="Избранное">
+									<img src="/assets/img/heart.svg" alt="Избранное">
 									<span>Избранное</span>
 								</a>
 							</li>
 							<li>
 								<a href="/" class="button login">
-									<img src="/images/styles/profile.svg" alt="Профиль">
+									<img src="/assets/img/profile.svg" alt="Профиль">
 									<span>Профиль</span>
 								</a>
 							</li>
 							<li>
 								<a href="/cart" class="cart btn">
-									<img src="/images/styles/cart.svg" alt="Корзина">
+									<img src="/assets/img/cart.svg" alt="Корзина">
 									<span class="cart_item_counter">0</span>
 								</a>
 							</li>
