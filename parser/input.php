@@ -6,6 +6,7 @@ $i			= 2;
 $domain 	= 'https://indexiq.ru';
 $url		= 'https://indexiq.ru/catalog/vse-smartfony/';
 $jsonArr	= array();
+$n 			= 0;
 
 foreach(file_get_html($url)->find('.pagination a.pagination-item.rs-pagination') as $element){
 	$count = $element->plaintext;
@@ -38,17 +39,19 @@ while($i<=$count){
         	$haystack = $th->attr['data-src'];
 
 			if(strripos($haystack,'.webp') === false){
-				$slider[] = array('img'=>$haystack);
+				$slider[] = array('img'=>$domain.$haystack);
 			}else{
-				$slider[] = array('img'=>explode('.webp',$haystack)[0]);
+				$slider[] = array('img'=>$domain.explode('.webp',$haystack)[0]);
 			}
 
         }
 
-		$fullImade = $html->find('.image-zoom.slick-slide img',0)->attr['data-zoom'];
+		$fullImage = $html->find('.image-zoom.slick-slide img',0)->attr['data-zoom'];
 
-		if(strripos($fullImade,'.webp') !== false){
-			$fullImade = explode('.webp',$fullImade)[0];
+		if(strripos($fullImage,'.webp') !== false){
+			$fullImage = $domain.explode('.webp',$fullImage)[0];
+		}else{
+			$fullImage = $domain.$fullImage;
 		}
 
         $jsonArr[] = array(
@@ -57,10 +60,13 @@ while($i<=$count){
             'price_old'		=>	(int)trim(preg_replace('/[^0-9]+/','',$html->find('span.rs-price-old',0)->plaintext)),
             'articul'		=>	(int)trim(preg_replace('/[^0-9]+/','',$html->find('ul.card__tech-text li span',0)->plaintext)),
             'manufacturer'	=>	$manufacturer,
-            'fullImade'		=>	$fullImade,
+            'fullImage'		=>	$fullImage,
             'attr'			=>	$arr,
             'slider'		=>	$slider
         );
+
+        echo $n++;
+        echo PHP_EOL;
 
 	}
 
