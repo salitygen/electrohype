@@ -21,7 +21,7 @@ while($i<=$count){
 		foreach(file_get_html($domain.$element->href)->find('.tab_content .tech-list .tech-list-item') as $data){
 
 			var_dump($data->find('.tech-param span'));
-			die();
+			exit();
 
 			if(trim($data->find('.tech-param span')->plaintext) == 'Производитель'){
 				$manufacturer = trim($data->find('.tech-value')->plaintext);
