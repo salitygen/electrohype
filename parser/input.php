@@ -42,17 +42,20 @@ while($i<=$count){
 
             }
 
-			$fullImade = $data->find('.image-zoom.slick-slide img',0)->attr['data-zoom'];
+			//$fullImade = $data->find('.image-zoom.slick-slide img')->attr['data-zoom'];
 
-			if(strripos($fullImade,'.webp') !== false){
-				$fullImade = explode('.webp',$fullImade)[0];
-			}
+			//if(strripos($fullImade,'.webp') !== false){
+			//	$fullImade = explode('.webp',$fullImade)[0];
+			//}
+
+			print $data->find('ul.card__tech-text li span',0)->plaintext;
+			die();
 
             $jsonArr[] = array(
                 'title'			=>	trim($data->find('h1',0)->plaintext),
-                'price'			=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-new',0)->plaintext)),
-                'price_old'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-old',0)->plaintext)),
-                'articul'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('ul.card__tech-text li span',0)->plaintext)),
+                'price'			=>	(int)trim(preg_replace('/[^0-9]+/','',$data->find('span.rs-price-new',0)->plaintext)),
+                'price_old'		=>	(int)trim(preg_replace('/[^0-9]+/','',$data->find('span.rs-price-old',0)->plaintext)),
+                'articul'		=>	(int)trim(preg_replace('/[^0-9]+/','',$data->find('ul.card__tech-text li span',0)->plaintext)),
                 'manufacturer'	=>	$manufacturer,
                 'fullImade'		=>	$fullImade,
                 'attr'			=>	$arr,
