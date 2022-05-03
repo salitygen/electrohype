@@ -2,7 +2,7 @@
 
 include('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/simple_html_dom.php');
 
-$i			= 2;
+$i			= 1;
 $domain 	= 'https://indexiq.ru';
 $url		= 'https://indexiq.ru/catalog/vse-planshety/';
 $jsonArr	= array();
