@@ -16,35 +16,23 @@ while($i<=$count){
 
 	foreach(file_get_html($url.'?p='.$i)->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
 
-
-
-		foreach(file_get_html($domain.$element->href)->find('.tab_content .tech-list .tech-list-item') as $data){
-			print $data->find('.tech-param span',0)->plaintext.'<br>';
-			die();
-		}
-
-		/*
-
 		$arr = array();
 		$slider = array();
 
 		foreach(file_get_html($domain.$element->href)->find('.tab_content .tech-list .tech-list-item') as $data){
 
-			var_dump($data->find('.tech-param span'));
-			exit();
-
-			if(trim($data->find('.tech-param span')->plaintext) == 'Производитель'){
-				$manufacturer = trim($data->find('.tech-value')->plaintext);
+			if(trim($data->find('.tech-param span',0)->plaintext) == 'Производитель'){
+				$manufacturer = trim($data->find('.tech-value',0)->plaintext);
 			}
 
 			$arr[] = array(
-				'name' => trim($data->find('.tech-param span')->plaintext),
-				'value'=> trim($data->find('.tech-value')->plaintext)
+				'name' => trim($data->find('.tech-param span',0)->plaintext),
+				'value'=> trim($data->find('.tech-value',0)->plaintext)
 			);
 
             foreach($data->find('.image-zoom.slick-slide img') as $th){
 
-            	$haystack = $th->attr('data-src');
+            	$haystack = $th->getAttribute('data-src');
 
 				if(strripos($haystack,'.webp') === false){
 					$slider[] = array('img'=>$haystack);
@@ -54,17 +42,17 @@ while($i<=$count){
 
             }
 
-			$fullImade = $data->find('.image-zoom.slick-slide img')->attr('data-zoom');
+			$fullImade = $data->find('.image-zoom.slick-slide img',0)->getAttribute('data-zoom');
 
 			if(strripos($fullImade,'.webp') !== false){
 				$fullImade = explode('.webp',$fullImade)[0];
 			}
 
             $jsonArr[] = array(
-                'title'			=>	trim($data->find('h1')->plaintext),
-                'price'			=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-new')->plaintext)),
-                'price_old'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-old')->plaintext)),
-                'articul'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('ul.card__tech-text li span')[0]->plaintext)),
+                'title'			=>	trim($data->find('h1',0)->plaintext),
+                'price'			=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-new',0)->plaintext)),
+                'price_old'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-old',0)->plaintext)),
+                'articul'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('ul.card__tech-text li span',0)->plaintext)),
                 'manufacturer'	=>	$manufacturer,
                 'fullImade'		=>	$fullImade,
                 'attr'			=>	$arr,
@@ -73,15 +61,12 @@ while($i<=$count){
 
 		}
 
-		*/
-
 	}
 
 	$i++;
 
 }
 
-//file_put_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/phones.json',json_encode($jsonArr));
-
+file_put_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/phones.json',json_encode($jsonArr));
 
 ?>
