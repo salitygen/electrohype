@@ -38,7 +38,7 @@ while($i<=$count){
 					$slider[] = array('img'=>explode('.webp',$haystack)[0]);
 				}
 
-            });
+            }
 
 			$fullImade = $data->find('.image-zoom.slick-slide img')->attr('data-zoom');
 
@@ -50,7 +50,7 @@ while($i<=$count){
                 'title'			=>	trim($data->find('h1')->plaintext),
                 'price'			=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-new')->plaintext)),
                 'price_old'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-old')->plaintext)),
-                'articul'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('ul.card__tech-text li:eq(0) span')->plaintext)),
+                'articul'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('ul.card__tech-text li span')[0]->plaintext)),
                 'manufacturer'	=>	$manufacturer,
                 'fullImade'		=>	$fullImade,
                 'attr'			=>	$arr,
