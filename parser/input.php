@@ -2,26 +2,19 @@
 <pre>
 <?php 
 
+$i 		= 2;
 $url	= 'https://indexiq.ru/catalog/vse-smartfony/';
 $arrUrl = array();
-$html	= file_get_html($url);
 
-foreach($html->find('.pagination a.pagination-item.rs-pagination') as $element){
+foreach(file_get_html($url)->find('.pagination a.pagination-item.rs-pagination') as $element){
 	$count = $element->plaintext;
 }
 
-$i = 2;
-
 while($i<=$count){
-
-	$html = file_get_html($url.'?p='.$i);
-
-	foreach($html->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
+	foreach(file_get_html($url.'?p='.$i)->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
 		$arrUrl[] = $element->href;
 	}
-
 	$i++;
-
 }
 
 var_dump($arrUrl);
