@@ -1,19 +1,28 @@
-<?php
-	include($_SERVER['DOCUMENT_ROOT'].'/parser/simple_html_dom.php');
-	$html = file_get_html('https://indexiq.ru/catalog/vse-smartfony/');
-?>
-<pre>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/parser/simple_html_dom.php');?>
+
 <?php 
 
-//var_dump($html);
+$url = 'https://indexiq.ru/catalog/vse-smartfony/';
+$html = file_get_html($url);
 
 foreach($html->find('.pagination a.pagination-item.rs-pagination') as $element){
-	echo $element->plaintext .'<br>';
+	$count = $element->plaintext;
 }
 
-foreach($html->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
-	//echo $element->href .'<br>';
+$i = 2;
+
+each($i<$count){
+
+	echo $url.'?p='.$i.'<br>';
+	$i++;
+
 }
+
+
+
+//foreach($html->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
+	//echo $element->href .'<br>';
+//}
 
 
 //header("Access-Control-Allow-Origin: *");
