@@ -11,9 +11,19 @@ foreach(file_get_html($url)->find('.pagination a.pagination-item.rs-pagination')
 	$count = $element->plaintext;
 }
 
+
 while($i<=$count){
 
 	foreach(file_get_html($url.'?p='.$i)->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
+
+
+
+		foreach(file_get_html($domain.$element->href)->find('.tab_content .tech-list .tech-list-item .tech-param span') as $data){
+			print $data->plaintext.'<br>';
+			die();
+		}
+
+		/*
 
 		$arr = array();
 		$slider = array();
@@ -63,12 +73,15 @@ while($i<=$count){
 
 		}
 
+		*/
+
 	}
 
 	$i++;
 
 }
 
-file_put_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/phones.json',json_encode($jsonArr));
+//file_put_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/phones.json',json_encode($jsonArr));
+
 
 ?>
