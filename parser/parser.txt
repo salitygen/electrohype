@@ -8,6 +8,11 @@ $('div#pagination .product-item.rs-product-item[itemprop="itemListElement"]').ma
 
 $.each(urls,function(index,value){
 
+    let arr = [];
+    let slider = [];
+    let jsonArr = [];
+    let manufacturer = '';
+
     $.ajax({
 
         url:value.url,
@@ -16,11 +21,6 @@ $.each(urls,function(index,value){
         cache:false,
         headers:{'x-requested-with':''},
         success: function(data){
-            
-        let arr = [];
-        let slider = [];
-        let jsonArr = [];
-        let manufacturer = '';
 
             $(data).find('.tab_content .tech-list .tech-list-item').map(function(){
                 if($(this).find('.tech-param span').text().trim() == 'Производитель'){
@@ -48,20 +48,16 @@ $.each(urls,function(index,value){
                 attr:arr,
                 slider:slider
             });
-
-            $.ajax({
-                url:'https://electrohype.localh0st.ru/parser/input.php',
-                method:'POST',
-                data:{'data':JSON.stringify(jsonArr)},
-                async:false,
-                cache:false
-            });
-
-            jsonArr = [];
-            data = '';
     
         }
         
+    });
+
+    $.ajax({
+        url:'https://electrohype.localh0st.ru/parser/input.php',
+        method:'POST',
+        data:{'data':JSON.stringify(jsonArr)},
+        async:false
     });
 
 });
