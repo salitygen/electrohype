@@ -1,13 +1,20 @@
+let urls = [];
+
 $('div#pagination .product-item.rs-product-item[itemprop="itemListElement"]').map(function(){
-    
-    let min = $(this).find('.product-item__image img').attr('src');
+    urls.push({
+        url:$(this).find('.product-item__image a').attr('href')
+    });
+});
+
+$.each(urls,function(index,value){
 
     $.ajax({
 
-        url:$(this).find('.product-item__image a').attr('href'),
+        url:value.url,
         datatype:'html',
         async:false,
-        headers:{'x-requested-with':'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww'},
+        cache:false,
+        headers:{'x-requested-with':''},
         success: function(data){
             
         let arr = [];
@@ -34,20 +41,27 @@ $('div#pagination .product-item.rs-product-item[itemprop="itemListElement"]').ma
             jsonArr.push({
                 title:$(data).find('h1').text().trim(),
                 price:parseInt($(data).find('span.rs-price-new').text().replace(/[^+\d]/g,'').trim()),
-                price_in_market:parseInt($(data).find('span.rs-price-old').text().replace(/[^+\d]/g,'').trim()),
-                price_old:parseInt($(data).find('span.old_cost').text().replace(/[^+\d]/g,'').trim()),
+                price_old:parseInt($(data).find('span.rs-price-old').text().replace(/[^+\d]/g,'').trim()),
                 articul:parseInt($(data).find('ul.card__tech-text li:eq(0) span').text().trim()),
-                miniature:min,
                 manufacturer:manufacturer,
                 fullImade:$(data).find('.image-zoom.slick-slide img').data('zoom').split('.webp')[0],
                 attr:arr,
                 slider:slider
             });
 
-            $.post('https://electrohype.localh0st.ru/parser/input.php',{data:JSON.stringify(jsonArr)});
+            $.ajax({
+                url:'https://electrohype.localh0st.ru/parser/input.php',
+                method:'POST',
+                data:{'data':JSON.stringify(jsonArr)},
+                async:false,
+                cache:false
+            });
+
             jsonArr = [];
+            data = '';
     
         }
+        
     });
-    
+
 });
