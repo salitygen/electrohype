@@ -29,8 +29,22 @@ while($i<=$count){
 			);
 
             foreach($data->find('.image-zoom.slick-slide img') as $th){
-            	$slider[] = array('img'=>explode('.webp',$th->attr('data-src'))[0]);
+
+            	$haystack = $th->attr('data-src');
+
+				if(strripos($haystack,'.webp') === false){
+					$slider[] = array('img'=>$haystack);
+				}else{
+					$slider[] = array('img'=>explode('.webp',$haystack)[0]);
+				}
+
             });
+
+			$fullImade = $data->find('.image-zoom.slick-slide img')->attr('data-zoom');
+
+			if(strripos($fullImade,'.webp') !== false){
+				$fullImade = explode('.webp',$fullImade)[0];
+			}
 
             $jsonArr[] = array(
                 'title'			=>	trim($data->find('h1')->plaintext),
@@ -38,7 +52,7 @@ while($i<=$count){
                 'price_old'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-old')->plaintext)),
                 'articul'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('ul.card__tech-text li:eq(0) span')->plaintext)),
                 'manufacturer'	=>	$manufacturer,
-                'fullImade'		=>	explode('.webp',$data->find('.image-zoom.slick-slide img')->attr('data-zoom'))[0],
+                'fullImade'		=>	$fullImade,
                 'attr'			=>	$arr,
                 'slider'		=>	$slider
             );
