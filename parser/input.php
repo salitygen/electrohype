@@ -68,6 +68,6 @@ while($i<=$count){
 
 }
 
-file_put_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/phones.json',json_encode($jsonArr));
+file_put_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/phones.json',json_encode($jsonArr,JSON_UNESCAPED_UNICODE));
 
 ?>
