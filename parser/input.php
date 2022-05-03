@@ -3,21 +3,21 @@
 include('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/simple_html_dom.php');
 
 $i			= 2;
-$url		= 'https://indexiq.ru/catalog/vse-smartfony/';
+$url		= 'https://indexiq.ru/catalog/vse-smartfony';
 $jsonArr	= array();
 
-foreach(file_get_html($url)->find('.pagination a.pagination-item.rs-pagination') as $element){
+foreach(file_get_html($url.'/')->find('.pagination a.pagination-item.rs-pagination') as $element){
 	$count = $element->plaintext;
 }
 
 while($i<=$count){
 
-	foreach(file_get_html($url.'?p='.$i)->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
+	foreach(file_get_html($url.'/?p='.$i)->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
 
 		$arr = array();
 		$slider = array();
 
-		foreach(file_get_html($element->href)->find('.tab_content .tech-list .tech-list-item') as $data){
+		foreach(file_get_html($url.$element->href)->find('.tab_content .tech-list .tech-list-item') as $data){
 
 			if(trim($data->find('.tech-param span')->plaintext) == 'Производитель'){
 				$manufacturer = trim($data->find('.tech-value')->plaintext);
