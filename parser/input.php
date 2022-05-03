@@ -1,9 +1,10 @@
 <?php include($_SERVER['DOCUMENT_ROOT'].'/parser/simple_html_dom.php');?>
-
+<pre>
 <?php 
 
-$url = 'https://indexiq.ru/catalog/vse-smartfony/';
-$html = file_get_html($url);
+$url	= 'https://indexiq.ru/catalog/vse-smartfony/';
+$arrUrl = array();
+$html	= file_get_html($url);
 
 foreach($html->find('.pagination a.pagination-item.rs-pagination') as $element){
 	$count = $element->plaintext;
@@ -16,12 +17,14 @@ while($i<=$count){
 	$html = file_get_html($url.'?p='.$i);
 
 	foreach($html->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
-		echo $element->href .'<br>';
+		$arrUrl[] = $element->href;
 	}
 
 	$i++;
 
 }
+
+var_dump($arrUrl);
 
 
 //foreach($html->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
