@@ -5,7 +5,11 @@
 <pre>
 <?php 
 
-var_dump($html);
+//var_dump($html);
+
+foreach($html->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
+	echo $element->href .'<br>';
+}
 
 
 //header("Access-Control-Allow-Origin: *");
