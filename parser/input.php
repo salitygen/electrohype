@@ -19,8 +19,7 @@ while($i<=$count){
 
 
 		foreach(file_get_html($domain.$element->href)->find('.tab_content .tech-list .tech-list-item') as $data){
-			print $data;
-			//str_get_html($data)->find('.tech-param span')->plaintext.'<br>';
+			print $data->find('.tech-param span',0)->plaintext.'<br>';
 			die();
 		}
 
