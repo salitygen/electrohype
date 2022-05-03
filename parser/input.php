@@ -11,13 +11,17 @@ foreach($html->find('.pagination a.pagination-item.rs-pagination') as $element){
 
 $i = 2;
 
-each($i<$count){
+while($i<=$count){
 
-	echo $url.'?p='.$i.'<br>';
+	$html = file_get_html($url.'?p='.$i);
+
+	foreach($html->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
+		echo $element->href .'<br>';
+	}
+
 	$i++;
 
 }
-
 
 
 //foreach($html->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
