@@ -48,7 +48,7 @@ while($i<=$count){
 			//	$fullImade = explode('.webp',$fullImade)[0];
 			//}
 
-			print $data->find('ul.card__tech-text li span',0)->plaintext;
+			var_dump($data->find('.rs-price-old'));
 			die();
 
             $jsonArr[] = array(
