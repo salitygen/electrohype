@@ -1,40 +1,56 @@
-<?php include($_SERVER['DOCUMENT_ROOT'].'/parser/simple_html_dom.php');?>
-<pre>
 <?php 
 
-$i 		= 2;
-$url	= 'https://indexiq.ru/catalog/vse-smartfony/';
-$arrUrl = array();
+include('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/simple_html_dom.php');
+
+$i			= 2;
+$url		= 'https://indexiq.ru/catalog/vse-smartfony/';
+$jsonArr	= array();
 
 foreach(file_get_html($url)->find('.pagination a.pagination-item.rs-pagination') as $element){
 	$count = $element->plaintext;
 }
 
 while($i<=$count){
+
 	foreach(file_get_html($url.'?p='.$i)->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
-		$arrUrl[] = $element->href;
+
+		$arr = array();
+		$slider = array();
+
+		foreach(file_get_html($element->href)->find('.tab_content .tech-list .tech-list-item') as $data){
+
+			if(trim($data->find('.tech-param span')->plaintext) == 'Производитель'){
+				$manufacturer = trim($data->find('.tech-value')->plaintext);
+			}
+
+			$arr[] = array(
+				'name' => trim($data->find('.tech-param span')->plaintext),
+				'value'=> trim($data->find('.tech-value')->plaintext)
+			);
+
+            foreach($data->find('.image-zoom.slick-slide img') as $th){
+            	$slider[] = array('img'=>explode('.webp',$th->attr('data-src'))[0]);
+            });
+
+            $jsonArr[] = array(
+                'title'			=>	trim($data->find('h1')->plaintext),
+                'price'			=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-new')->plaintext)),
+                'price_old'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('span.rs-price-old')->plaintext)),
+                'articul'		=>	(int)trim(preg_replace('/[^+\d]/g','',$data->find('ul.card__tech-text li:eq(0) span')->plaintext)),
+                'manufacturer'	=>	$manufacturer,
+                'fullImade'		=>	explode('.webp',$data->find('.image-zoom.slick-slide img')->attr('data-zoom'))[0],
+                'attr'			=>	$arr,
+                'slider'		=>	$slider
+            );
+
+		}
+
 	}
+
 	$i++;
+
 }
 
-var_dump($arrUrl);
-
-
-//foreach($html->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
-	//echo $element->href .'<br>';
-//}
-
-
-//header("Access-Control-Allow-Origin: *");
-//header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-//header("Access-Control-Allow-Headers: Authorization, Origin, X-Requested-With, Content-Type, Accept");
-
-//if(isset($_POST['data'])){
-//	$current = file_get_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/phones.json');
-//	$current .= $_POST['data'];
-//	file_put_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/phones.json',str_replace('}][{','},{',$current));
-//}
-
-//die('success');
+file_put_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/phones.json',json_encode($jsonArr));
 
 ?>
