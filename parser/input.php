@@ -7,8 +7,12 @@
 
 //var_dump($html);
 
+foreach($html->find('.pagination a.pagination-item.rs-pagination') as $element){
+	echo $element->plaintext .'<br>';
+}
+
 foreach($html->find('div#pagination .product-item.rs-product-item[itemprop="itemListElement"] .product-item__image a') as $element){
-	echo $element->href .'<br>';
+	//echo $element->href .'<br>';
 }
 
 
