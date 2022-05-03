@@ -4,7 +4,7 @@ include('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/
 
 $i			= 2;
 $domain 	= 'https://indexiq.ru';
-$url		= 'https://indexiq.ru/catalog/vse-smartfony/';
+$url		= 'https://indexiq.ru/catalog/vse-planshety/';
 $jsonArr	= array();
 $n 			= 0;
 
@@ -74,6 +74,6 @@ while($i<=$count){
 
 }
 
-file_put_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/phones.json',json_encode($jsonArr,JSON_UNESCAPED_UNICODE));
+file_put_contents('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/parse/planshety.json',json_encode($jsonArr,JSON_UNESCAPED_UNICODE));
 
 ?>
