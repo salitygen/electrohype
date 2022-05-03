@@ -18,8 +18,9 @@ while($i<=$count){
 
 		$arr = array();
 		$slider = array();
+		$html = file_get_html($domain.$element->href);
 
-		foreach(file_get_html($domain.$element->href)->find('.tab_content .tech-list .tech-list-item') as $data){
+		foreach($html->find('.tab_content .tech-list .tech-list-item') as $data){
 
 			if(trim($data->find('.tech-param span',0)->plaintext) == 'Производитель'){
 				$manufacturer = trim($data->find('.tech-value',0)->plaintext);
@@ -30,39 +31,36 @@ while($i<=$count){
 				'value'=> trim($data->find('.tech-value',0)->plaintext)
 			);
 
-            foreach($data->find('.image-zoom.slick-slide img') as $th){
-
-            	$haystack = $th->attr['data-src'];
-
-				if(strripos($haystack,'.webp') === false){
-					$slider[] = array('img'=>$haystack);
-				}else{
-					$slider[] = array('img'=>explode('.webp',$haystack)[0]);
-				}
-
-            }
-
-			//$fullImade = $data->find('.image-zoom.slick-slide img')->attr['data-zoom'];
-
-			//if(strripos($fullImade,'.webp') !== false){
-			//	$fullImade = explode('.webp',$fullImade)[0];
-			//}
-
-			var_dump($data->find('.rs-price-old'));
-			die();
-
-            $jsonArr[] = array(
-                'title'			=>	trim($data->find('h1',0)->plaintext),
-                'price'			=>	(int)trim(preg_replace('/[^0-9]+/','',$data->find('span.rs-price-new',0)->plaintext)),
-                'price_old'		=>	(int)trim(preg_replace('/[^0-9]+/','',$data->find('span.rs-price-old',0)->plaintext)),
-                'articul'		=>	(int)trim(preg_replace('/[^0-9]+/','',$data->find('ul.card__tech-text li span',0)->plaintext)),
-                'manufacturer'	=>	$manufacturer,
-                'fullImade'		=>	$fullImade,
-                'attr'			=>	$arr,
-                'slider'		=>	$slider
-            );
-
 		}
+
+        foreach($html->find('.image-zoom.slick-slide img') as $th){
+
+        	$haystack = $th->attr['data-src'];
+
+			if(strripos($haystack,'.webp') === false){
+				$slider[] = array('img'=>$haystack);
+			}else{
+				$slider[] = array('img'=>explode('.webp',$haystack)[0]);
+			}
+
+        }
+
+		$fullImade = $html->find('.image-zoom.slick-slide img',0)->attr['data-zoom'];
+
+		if(strripos($fullImade,'.webp') !== false){
+			$fullImade = explode('.webp',$fullImade)[0];
+		}
+
+        $jsonArr[] = array(
+            'title'			=>	trim($html->find('h1',0)->plaintext),
+            'price'			=>	(int)trim(preg_replace('/[^0-9]+/','',$html->find('span.rs-price-new',0)->plaintext)),
+            'price_old'		=>	(int)trim(preg_replace('/[^0-9]+/','',$html->find('span.rs-price-old',0)->plaintext)),
+            'articul'		=>	(int)trim(preg_replace('/[^0-9]+/','',$html->find('ul.card__tech-text li span',0)->plaintext)),
+            'manufacturer'	=>	$manufacturer,
+            'fullImade'		=>	$fullImade,
+            'attr'			=>	$arr,
+            'slider'		=>	$slider
+        );
 
 	}
 
