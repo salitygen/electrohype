@@ -32,7 +32,7 @@ while($i<=$count){
 
             foreach($data->find('.image-zoom.slick-slide img') as $th){
 
-            	$haystack = $th->getAttribute('data-src');
+            	$haystack = $th->attr['data-src'];
 
 				if(strripos($haystack,'.webp') === false){
 					$slider[] = array('img'=>$haystack);
@@ -42,7 +42,7 @@ while($i<=$count){
 
             }
 
-			$fullImade = $data->find('.image-zoom.slick-slide img',0)->getAttribute('data-zoom');
+			$fullImade = $data->find('.image-zoom.slick-slide img',0)->attr['data-zoom'];
 
 			if(strripos($fullImade,'.webp') !== false){
 				$fullImade = explode('.webp',$fullImade)[0];
