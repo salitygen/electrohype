@@ -3,7 +3,6 @@
 include('/home/server/web/developer/electrohype.localh0st.ru/public_html/parser/simple_html_dom.php');
 
 $pageArr = array(
-	'accessories',
 	'noutbuki',
 	'monobloki',
 	'setev-oborudovanie',
@@ -34,6 +33,7 @@ foreach ($pageArr as $page) {
 	$url		= 'https://indexiq.ru/catalog/'.$page.'/';
 	$jsonArr	= array();
 	$n 			= 0;
+	$count 		= 1;
 
 	foreach(file_get_html($url)->find('.pagination a.pagination-item.rs-pagination') as $element){
 		$count = $element->plaintext;
