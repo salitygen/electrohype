@@ -50,7 +50,7 @@ class JKHelper {
 				->from('#__jkreview_reviews AS a')
 				->join('LEFT', '#__jkreview_assets AS b ON b.review_id = a.id')
 				->join('LEFT', '#__jkreview_attachments AS c ON c.review_id = a.id')
-				->where('a.public_status=1 AND b.item_id='.$id);
+				->where('a.public_status=1 AND b.item_id='.(int)$id);
 			$db->setQuery($query);
 			$data->reviews = $db->loadObjectList();
 		}else{
@@ -69,7 +69,7 @@ class JKHelper {
 			$query = $db->getQuery(true)
 				->select('SUM(rating)/COUNT(rating) AS sum, COUNT(rating) AS count')
 				->from('#__jkreview_reviews AS a, #__jkreview_assets AS b')
-				->where('a.public_status=1 AND a.id = b.review_id AND b.item_id='.$id);
+				->where('a.public_status=1 AND a.id = b.review_id AND b.item_id='.(int)$id);
 			$db->setQuery($query);
 			$data = $db->loadObjectList()[0];
 		}else{

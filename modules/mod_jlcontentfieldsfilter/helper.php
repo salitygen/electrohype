@@ -9,31 +9,27 @@
  */
 
 defined('_JEXEC') or die;
-
 require_once JPATH_ROOT. '/administrator/components/com_fields/helpers/fields.php';
 
-class ModJlContentFieldsFilterHelper
-{
-	public static function getFields($params, $category_id, $values, $moduleId, $option)
-	{
+class ModJlContentFieldsFilterHelper {
+	
+	public static function getFields($params, $category_id, $values, $moduleId, $option){
 		$app = JFactory::getApplication();
 		$fields = array();
 		$template = $app->getTemplate();
-
 		$context = '';
 
-		if ($option == 'com_content') {
+		if($option == 'com_content'){
 			$context = 'com_content.article';
-		} elseif ($option == 'com_contact') {
+		}elseif($option == 'com_contact'){
 			$context = 'com_contact.contact';
 		}
-
 
 		$item = new stdClass();
 		$item->language = $app->getLanguage()->getTag();
 		$item->catid = $category_id;
-
 		$fields = FieldsHelper::getFields($context, $item);
+	
 		if (count($fields)) {
 			$fieldIds = array_map(
 				function ($f) {
@@ -45,33 +41,32 @@ class ModJlContentFieldsFilterHelper
 			$new = array();
 			$usedFieldIds = array();
 
-			foreach ($fields as $key => $original) {
-				if (in_array($original->id, $usedFieldIds)) {
+			foreach ($fields as $key => $original){
+				
+				if(in_array($original->id, $usedFieldIds)){
 					continue;
 				}
+				
 				$usedFieldIds[] = $original->id;
-				$field = clone $original;
-				$field->value = isset($values[$field->id]) ? $values[$field->id] : '';
-				$field->rawvalue = $field->value;
-
 				$content_filter = $original->params->get('content_filter', '');
-
 				$disabled_categories = $original->params->get('disabled_categories', array());
-				if (in_array($category_id, $disabled_categories)) {
+				
+				if(in_array($category_id, $disabled_categories)){
 					continue;
 				}
 
-				if (empty($content_filter)) {
+				if(empty($content_filter)){
 					unset($fieldIds[$key]);
 					continue;
 				}
 
-				$filter_layout = $original->params->get('filter_layout', '');
+				$filter_layout = $original->params->get('filter_layout','');
+				
 				if (!empty($filter_layout)) {
-					$filter_layout = explode(':', $filter_layout);
+					$filter_layout = explode(':',$filter_layout);
 					$src = $filter_layout[0];
 					$layout = $filter_layout[1];
-				} else {
+				}else{
 					$layout = $content_filter;
 					$src = '_';
 				}
@@ -87,10 +82,14 @@ class ModJlContentFieldsFilterHelper
 							? JPATH_ROOT.'/templates/'.$src.'/html/layouts'
 							: JPATH_ROOT.'/modules/mod_jlcontentfieldsfilter/layouts'
 					);
-
-                if ($field->params->get('field_hidden', false) || $field->params->get('options_hidden', false)) {
-                    $field = self::setHiddenOptions($field, $category_id, $option);
-                }
+					
+				$field = clone $original;
+				$field->value = isset($values[$field->id]) ? $values[$field->id] : '';
+				$field->rawvalue = $field->value;
+				
+				if($field->params->get('field_hidden', false) || $field->params->get('options_hidden', false)){
+					$field = self::setHiddenOptions($field, $category_id, $option);
+				}
 
 				$displayData = array('field' => $field, 'params' => $params, 'moduleId' => $moduleId, 'rangedata' => array());
 
@@ -104,9 +103,13 @@ class ModJlContentFieldsFilterHelper
 					$basePath,
 					array('component' => 'auto', 'client' => 0, 'suffixes' => array())
 				);
+				
 			}
+			
 			$fields = $new;
+	
 		}
+		
 		return $fields;
 	}
 
@@ -130,8 +133,7 @@ class ModJlContentFieldsFilterHelper
 				and (c.published = 1)
 				and (a.state = 1)
 				and (a.catid = ' . (int)$category_id . ')
-				and ((a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . '))
-				and ((a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . '))
+				or (c.parent_id = ' . (int)$category_id . ')
 			';
 
 		$contactsQuery = '
@@ -143,20 +145,25 @@ class ModJlContentFieldsFilterHelper
 				and (c.published = 1)
 				and (a.state = 1)
 				and (a.catid = ' . (int)$category_id . ')
-				and ((a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . '))
-				and ((a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . '))
+				or (c.parent_id = ' . (int)$category_id . ')
 			';
+			
+		$tagIds = JFactory::getApplication()->input->get('id', array(), 'array');
 
 		$tagsQuery = '
 			select a.id
-			from #__tags AS a
+			from #__content AS a
+			left join #__categories AS c ON c.id = a.catid
+			left join #__contentitem_tag_map AS d ON d.content_item_id = a.id
 			where (a.access in (' . $groups . '))
 				and (c.access in (' . $groups . '))
 				and (c.published = 1)
-				and ((a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . '))
-				and ((a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . '))
+				and (a.state = 1)
+				and (d.type_alias = "com_content.article")
+				and (d.tag_id in('.implode(', ',$tagIds).'))
+				and (c.parent_id = ' . (int)$category_id . ')
 			';
-
+			
 		switch ($context) {
 			case 'com_content':
 				$subQuery = $articlesQuery;
@@ -176,7 +183,8 @@ class ModJlContentFieldsFilterHelper
 				and (item_id in (' . $subQuery . '))
 				%s
 			';
-		if (in_array($field->type, ['checkboxes', 'list', 'radio'])) {
+			
+		if (in_array($field->type, ['checkboxes', 'list', 'radio', 'calendar'])) {
 			$options = (array)$field->fieldparams->get('options', []);
 			$hidden = false;
 			$q = '';
@@ -190,9 +198,11 @@ class ModJlContentFieldsFilterHelper
 				$q .= ', (' . $tmp . ') as `' . $key . '`';
 			}
 			$q = sprintf($query, 'count(field_id) as `' . $firstKeyOption . '`' . $q, 'and (value = ' . $db->quote($options[$firstKeyOption]->value) . ')');
+			
 			$cnt = $db->setQuery($q)->loadObject();
 			foreach ($options as $key => $option) {
 				$options[$key]->hidden = $cnt->$key == 0;
+				$options[$key]->counter = $cnt->$key;
 				$hidden = !$hidden ? false : $cnt->$key == 0;
 			}
 			$field->fieldparams->set('options', $options);
@@ -232,7 +242,7 @@ class ModJlContentFieldsFilterHelper
 			$subquery = (string)$q;
 		} elseif ($option == 'com_content') {
 			$params = JComponentHelper::getParams('com_content');
-			$showSubcategories = $params->get('show_subcategory_content', '0');
+			$showSubcategories = 2;//$params->get('show_subcategory_content', '0');
 
 			if ($showSubcategories != 0) {
 				$q = $db->getQuery(true);
@@ -283,22 +293,22 @@ class ModJlContentFieldsFilterHelper
 	{
 		$app = JFactory::getApplication();
 		$template = $app->getTemplate();
-
+		
 		$options = array();
-		if ($option == 'com_content') {
-			$options[] = JHtml::_('select.option', '', JText::_('MOD_JLCONTENTFIELDSFILTER_ORDERING_DEFAULT'));
-			$options[] = JHtml::_('select.option', 'ordering.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_ORDERING_ASC'));
-			$options[] = JHtml::_('select.option', 'ordering.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_ORDERING_DESC'));
-			$options[] = JHtml::_('select.option', 'title.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_TITLE_ASC'));
-			$options[] = JHtml::_('select.option', 'title.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_TITLE_DESC'));
-			$options[] = JHtml::_('select.option', 'created.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_CREATED_ASC'));
-			$options[] = JHtml::_('select.option', 'created.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_CREATED_DESC'));
-			$options[] = JHtml::_('select.option', 'created_by.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_CREATED_BY_ASC'));
-			$options[] = JHtml::_('select.option', 'created_by.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_CREATED_BY_DESC'));
-			$options[] = JHtml::_('select.option', 'hits.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_HITS_ASC'));
+		if ($option == 'com_content' || $option == 'com_tags') {
+			$options[] = JHtml::_('select.option', 'created', JText::_('MOD_JLCONTENTFIELDSFILTER_ORDERING_DEFAULT'));
+			//$options[] = JHtml::_('select.option', 'ordering.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_ORDERING_ASC'));
+			//$options[] = JHtml::_('select.option', 'ordering.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_ORDERING_DESC'));
+			//$options[] = JHtml::_('select.option', 'title.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_TITLE_ASC'));
+			//$options[] = JHtml::_('select.option', 'title.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_TITLE_DESC'));
+			//$options[] = JHtml::_('select.option', 'created.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_CREATED_ASC'));
+			//$options[] = JHtml::_('select.option', 'created.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_CREATED_DESC'));
+			//$options[] = JHtml::_('select.option', 'created_by.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_CREATED_BY_ASC'));
+			//$options[] = JHtml::_('select.option', 'created_by.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_CREATED_BY_DESC'));
+			//$options[] = JHtml::_('select.option', 'hits.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_HITS_ASC'));
 			$options[] = JHtml::_('select.option', 'hits.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_HITS_DESC'));
-			$options[] = JHtml::_('select.option', 'price.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_PRICE_ASC'));
-			$options[] = JHtml::_('select.option', 'price.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_PRICE_DESC'));
+			$options[] = JHtml::_('select.option', 'value.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_PRICE_ASC'));
+			$options[] = JHtml::_('select.option', 'value.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_PRICE_DESC'));
 		} elseif ($option == 'com_contact') {
 			$options[] = JHtml::_('select.option', '', JText::_('MOD_JLCONTENTFIELDSFILTER_ORDERING_DEFAULT'));
 			$options[] = JHtml::_('select.option', 'ordering.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_ORDERING_ASC'));
@@ -310,7 +320,7 @@ class ModJlContentFieldsFilterHelper
 			$options[] = JHtml::_('select.option', 'hits.asc', JText::_('MOD_JLCONTENTFIELDSFILTER_HITS_ASC'));
 			$options[] = JHtml::_('select.option', 'hits.desc', JText::_('MOD_JLCONTENTFIELDSFILTER_HITS_DESC'));
 		}
-
+	
 		$basePath = is_file(JPATH_ROOT.'/templates/'.$template.'/html/layouts/mod_jlcontentfieldsfilter/ordering.php')
 			? JPATH_ROOT.'/templates/'.$template.'/html/layouts'
 			: JPATH_ROOT.'/modules/mod_jlcontentfieldsfilter/layouts';
@@ -323,6 +333,7 @@ class ModJlContentFieldsFilterHelper
 		);
 
 		return $html;
+
 	}
 
 	public static function countCatArticles($catid)

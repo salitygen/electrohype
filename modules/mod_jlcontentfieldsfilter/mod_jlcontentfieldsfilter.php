@@ -79,12 +79,11 @@ else if(
 
 if($option == 'com_tags'){
     $context = $option.'.cat_'.implode('_', $tagIds).'.jlcontentfieldsfilter';
-}
-else{
+}else{
     $context = $option.'.cat_'.$catid.'.jlcontentfieldsfilter';
 }
 
-$jlContentFieldsFilter = $app->getUserStateFromRequest($context, 'jlcontentfieldsfilter', array(), 'array');
+$jlContentFieldsFilter = $app->getUserStateFromRequest($context, 'filter', array(), 'array');
 
 if($option == 'com_content'){
 	$action = JRoute::_(ContentHelperRoute::getCategoryRoute($catid));
