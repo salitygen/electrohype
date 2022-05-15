@@ -1,0 +1,507 @@
+.center {
+    width: 860px;
+    margin: 0 auto;
+}
+
+div#head {
+    height: 77px;
+}
+
+.buttons a.btn {
+    margin: 20px 5px;
+    padding: 8px;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+}
+
+.moduletable_lang {
+    margin-left: 10px;
+}
+
+a.logo {
+    margin-right: 10px;
+    margin-top: 15px;
+}
+
+a.button {
+    padding: 9px 10px 9px 10px;
+    margin: 22px 0px 0 10px;
+    font-size: 12px;
+}
+
+div#headSlider {
+    background-position: center;
+}
+
+h1 {
+    font-size: 20px;
+    margin: 0 0 15px 0;
+    line-height: 24px;
+}
+
+div#content .center {
+    width: 860px;
+    margin: 0 auto;
+}
+
+form#filter select {
+    margin: 10px;
+    width: 240px;
+    min-width: unset;
+}
+
+div#slider-range {
+    width: calc(100% - 44px);
+    margin: 34px 22px 5px 22px;
+    height: 14px;
+}
+
+.rangeSlider {
+    width: 320px;
+}
+
+.blog li {
+    width: calc(33% - 64px);
+    float: left;
+    margin-bottom: 20px;
+    height: 381px;
+}
+
+.blog ul.filds {
+    width: 350px;
+}
+
+.cart.blog li {
+    width: calc(100% - 44px);
+    margin: 0;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+a.link h3 {
+    width: 100%;
+    overflow: hidden;
+    height: 120px;
+}
+
+a.readmore {
+    margin: 0 auto;
+}
+
+p.price {
+    margin-bottom: 20px;
+}
+
+.contacts {
+    width: 100%;
+    text-align: center;
+}
+
+.contacts a {
+    padding: 10px;
+    float: none;
+}
+
+.footerMenu ul {
+    width: 100%;
+    height: auto;
+}
+
+.footerMenu ul li a {
+    margin: 0;
+    padding: 5px 10px;
+}
+
+div#footer .contacts a.mail {
+    width: calc(100% - 35px);
+    float: left;
+    display: block;
+    position: relative;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+div#footer .contacts a.mail img {
+    float: none;
+}
+
+.buttons a.btn:hover:before, .contacts a.btn:hover:before {
+    display: none;
+}
+
+.buttons a.btn:after, .contacts a.btn:after {
+    display: none;
+}
+
+.buttons a.btn:hover, .contacts a.btn:hover {
+}
+
+.buttons a.btn:before, .contacts a.btn:before {
+    display: none;
+}
+
+div#footer a.instagram.btn,div#footer a.facebook.btn,div#footer a.youtube.btn {
+    float: none;
+    margin: unset;
+    height: auto;
+    width: auto;
+    position: unset;
+    padding: 15px;
+}
+
+div#footer .contacts {
+    margin-top: 10px;
+}
+
+div#footer .contacts a img {
+    width: 22px;
+    float: none;
+    position: unset;
+}
+
+div#footer {
+    height: auto;
+    padding-bottom: 20px;
+}
+
+div#content {
+    word-break: break-word;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+div#selectBlock select {
+    width: 292px;
+    margin: 0;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+.filter_container {
+    margin-top: 10px;
+}
+
+.filter_container span.select_attr {
+    width: 121px;
+    margin: -1px;
+}
+
+ul.audio li, .oneTrack {
+    margin: 5px;
+    width: calc(33% - 10px);
+    margin-bottom: 20px;
+}
+
+ul.audio {
+    width: 100%;
+}
+
+.track {
+    float: left;
+    width: 100%;
+    display: flex;
+}
+
+.track .wave {
+    width: 130px;
+    margin: 0px 14px;
+    margin-bottom: 20px;
+}
+
+table.addCart {
+    float: left;
+    margin-top: 0;
+    padding-bottom: 10px;
+}
+
+.item table.addCart td img {
+}
+
+ul.videolist li {
+    width: 256px;
+    margin: 0 15px;
+}
+
+ul.videolist li h3 {
+    float: left;
+    width: 100%;
+}
+
+ul.videolist {
+    width: 100%;
+    float: left;
+}
+
+.videos {
+    float: none;
+    margin: 0 auto;
+}
+
+p {
+    line-height: unset;
+}
+
+ul li {
+    line-height: 24px;
+}
+
+div#selectBlock {
+    margin-bottom: 10px;
+    float: left;
+    margin-top: 10px;
+}
+
+.blog ul.sounds {
+    min-width: unset;
+    margin-bottom: 20px;
+    width: 450px;
+}
+
+.blog ul.sounds li {
+    width: 100px;
+    margin: 0 5px;
+    height: 100px;
+}
+
+.cart.blog p.price {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.calculate {
+    width: 128px;
+    float: right;
+}
+
+.calculate button {
+    height: 34px;
+    width: 34px;
+}
+
+.calculate input {
+    height: 32px;
+    width: 56px;
+}
+
+.total table td {
+    padding: 11px;
+    margin-top: -1px;
+    width: calc(100% - 20px);
+}
+
+.total table th {
+    width: 100%;
+    display: block;
+}
+
+.total table tr {
+    width: 100%;
+}
+
+.total table thead {
+    display: block;
+    width: calc(100% - 28px);
+    float: left;
+    margin-top: 10px;
+}
+
+.total table tr.additional td[colspan="2"] {
+    font-size: 16px;
+}
+
+tr.agree label span {
+    float: right;
+    font-size: 12px;
+    margin: 0;
+}
+
+.total table tr.agree td label input {
+    margin-right: 7px;
+    margin-left: 0;
+}
+
+button.checkout {
+    margin: 4px 0;
+    display: block;
+}
+
+tr.agree label {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+div#cookies {
+    height: auto;
+}
+
+div#cookies button.close {
+    float: none;
+    margin: 0 auto;
+    display: block;
+    margin-top: 24px;
+}
+
+span.ui-slider-handle i {
+    margin-top: -21px;
+}
+
+span.ui-slider-handle.ui-state-default {
+    width: 28px;
+    height: 28px;
+}
+
+.ui-slider-range.ui-corner-all.ui-widget-header {
+    height: 14px;
+}
+
+body.openForm .w100 {
+}
+
+div#form {
+}
+
+div#form form {
+}
+
+.item .slick {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0 30px;
+    margin-bottom: 20px;
+}
+
+.item .slick img {
+    float: none;
+    margin: 0 auto;
+    display: block;
+}
+
+ul.audio li h3 {
+    margin-top: 30px;
+}
+
+ul.videolist li iframe {
+    width: 100%!important;
+}
+
+.blog li td {
+    display: block;
+}
+
+.oneTrack {
+    margin: 0;
+    margin-right: 40px;
+    margin-bottom: 40px;
+}
+
+li.itemCart a.img {
+    width: 180px;
+}
+
+li.itemCart td {
+    display: table-cell;
+}
+
+.cart.blog .total table thead {
+    display: table-header-group;
+    width: auto;
+    float: none;
+    margin: 0;
+}
+
+.cart.blog .total table th {
+    display: table-cell;
+}
+
+ul.setsList li {
+    width: 278px;
+}
+
+ul.items li {
+    width: 277px;
+    min-height: 508px;
+}
+
+ul.items li a.img {
+    height: 166px;
+}
+
+ul.items li h3 {
+    height: 90px;
+}
+
+div#top .buttons a.btn {
+    margin: 8px 3px;
+}
+
+.image {
+    width: 380px;
+}
+
+.cartbox {
+    width: 445px;
+    position: relative;
+    height: 380px;
+}
+
+.price b {
+    font-size: 28px;
+}
+
+.cartbox .price {
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+button.addToCart {
+    min-width: 140px;
+    width: 140px;
+    font-size: 13px;
+    margin: 0;
+}
+
+.controls button, .calculate button {
+    width: 37px;
+    height: 37px;
+}
+
+.controls input, .calculate input {
+    font-size: 18px;
+    width: 30px;
+    padding: 5px;
+}
+
+.controls {
+    margin: 3px 25px 0 0;
+}
+
+.colors ul li {
+    width: 165px;
+}
+
+.cartbox ul {
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.controls button.plus:before, .calculate button.plus:before {
+    left: 9px;
+    top: 18px;
+}
+
+.controls button.plus:after, .calculate button.plus:after {
+    left: 18px;
+    top: 9px;
+}
+
+.controls button.minus:before, .calculate button.minus:before {
+    left: 9px;
+    top: 18px;
+}
+
+.cart.blog li.itemCart td a.img {
+    width: 210px;
+}

@@ -1,0 +1,51 @@
+.jlmf-range-block {
+    width: 100% !important;
+    margin-top: 20px
+}
+
+.noUi-horizontal {
+    height: 6px;
+}
+
+html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
+    right: -7px;
+    left: auto;
+}
+
+.noUi-handle {
+    border-radius: 50%;
+}
+
+.noUi-handle:hover {
+    cursor: pointer;
+}
+
+.noUi-handle:focus {
+    outline: none;
+}
+
+.noUi-horizontal .noUi-handle {
+    width: 17px;
+    height: 17px;
+    top: -6px;
+}
+
+.noUi-handle:after,
+.noUi-handle:before
+{
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
+
+    .noUi-horizontal {
+        height: 12px;
+    }
+
+    .noUi-horizontal .noUi-handle {
+        width: 25px;
+        height: 25px;
+        top: -8px;
+    }
+
+}

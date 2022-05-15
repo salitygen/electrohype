@@ -21,6 +21,9 @@
  * Version Rev. 1.9.1 (291)
  */
 
+
+
+
 define('HDOM_TYPE_ELEMENT', 1);
 define('HDOM_TYPE_COMMENT', 2);
 define('HDOM_TYPE_TEXT', 3);
@@ -1505,8 +1508,9 @@ class simple_html_dom
 	{
 		global $debug_object;
 
+
 		// prepare
-		$this->prepare($str, $lowercase, $defaultBRText, $defaultSpanText);
+
 
 		// Per sourceforge http://sourceforge.net/tracker/?func=detail&aid=2949097&group_id=218559&atid=1044037
 		// Script tags removal now preceeds style tag removal.

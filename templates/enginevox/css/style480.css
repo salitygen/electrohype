@@ -1,0 +1,138 @@
+.center {
+    width: calc(100% - 20px);
+    padding: 0 10px;
+}
+
+button.openMenu {
+    display: block;
+}
+
+div#head {
+    height: 140px;
+}
+
+div#head .buttons .moduletable.top_menu.visible {
+    height: auto;
+}
+
+div#head .buttons .moduletable.top_menu .active a.button, div#head .buttons .moduletable.top_menu a.button:hover,div#head .buttons .moduletable.top_menu a.button {
+    border-bottom: none;
+    transition: 0s;
+    font-size: 16px;
+}
+
+div#content .center {
+    width: calc(100% - 20px);
+    padding: 0 10px;
+}
+
+.blog li {
+    width: calc(50% - 46px);
+    margin: 2px;
+}
+
+a.button {
+    margin: 0;
+    margin-right: 20px;
+}
+
+.buttons {
+    float: left;
+}
+
+a.img {
+    width: 100%;
+}
+
+a.readmore {
+    font-size: 12px;
+    width: calc(100% - 25px);
+    padding: 10px 10px 7px 10px;
+}
+
+ul.topSlider li {
+    height: 400px;
+}
+
+div#footer {
+    margin-top: 40px;
+}
+
+ul.audio li, .oneTrack {
+    width: calc(50% - 10px);
+    margin: 0px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.filter_container span.select_attr {
+    width: 134px;
+}
+
+ul.audio button, .oneTrack button {
+    font-size: 12px;
+}
+
+ul.audio li h3 {
+    font-size: 12px;
+}
+
+.track .currentTime {
+    font-size: 12px;
+}
+
+.track .wave {
+    margin: 0 8px;
+    width: 118px;
+    margin-bottom: 20px;
+}
+
+.track .fullTime {
+    font-size: 12px;
+}
+
+.oneTrack {
+    margin: 0 20px 20px 0;
+}
+
+ul.audio li.limit p.error.checkbox {
+    width: 129px;
+    line-height: 14px;
+    margin: 20px 54px;
+    float: left;
+    display: block;
+}
+
+div#slider-range {
+    width: calc(100% - 34px);
+}
+
+.item .slick img {
+    width: 100px;
+}
+
+table.addCart, .item table.addCart tbody, .item table.addCart tr,.item table.addCart td {
+    display: block;
+}
+
+ul.setsList li {
+    width: calc(50% - 12px);
+}
+
+ul.items li {
+    width: calc(50% - 10px);
+    margin-right: 10px;
+}
+
+p.price {
+    width: calc(50% - 35px);
+    margin-top: 20px;
+}
+
+.more a.butt {
+    width: calc(50% - 10px);
+}
+
+.colors ul li {
+    width: calc(50% - 10px);
+}

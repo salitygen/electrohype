@@ -1,0 +1,18 @@
+.table-striped tbody > tr:hover > td {
+    background-color: #f3f3f3;
+}
+span.cat_b {
+    background-color: #3071a9;
+    color: #fff;
+    padding: 1px 4px;
+    margin: 1px;
+    float: left;
+    border-radius: 4px;
+    font-size: 12px;;
+}
+.stars {
+    width: 104px;
+}
+span.text {
+    color: #000;
+}

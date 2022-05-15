@@ -1,0 +1,217 @@
+div#cat_label {
+    float: left;
+    width: 470px;
+    position: relative;
+}
+textarea {
+    width: 600px;
+    resize: none;
+    height: 200px;
+    float: left;
+}
+label.btn {
+    position: relative;
+    z-index: 2;
+}
+label.btn.active.btn-danger {
+    z-index: 1;
+}
+option:hover {
+    background-color: #3071a9;
+    color: #fff;
+}
+div#comment {
+    float: left;
+    padding: 17px 10px 0px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #dfdfdf;
+    margin-bottom: 20px;
+    width: calc(100% - 22px);
+    border-radius: 3px;
+}
+option {
+    padding: 4px;
+}
+.attachments img {
+    height: 140px;
+    width: auto;
+    max-width: unset;
+}
+span.cat_b.no {
+    background-color: #c5c5c5;
+}
+span.cat_b {
+    background-color: #3071a9;
+    color: #fff;
+    padding: 2px 4px;
+    margin: 2px;
+    float: left;
+    position: relative;
+    border-radius: 4px;
+    cursor: default;
+    z-index: 2;
+}
+span.cat_b .icon-unpublish:before {
+    color: #fff;
+}
+span.cat_b .icon-unpublish {
+	float: right;
+	margin-left: 5px;
+	margin-top: 2px;
+	cursor: pointer;
+}
+.faike_input {
+    float: left;
+    border: 1px solid #ccc;
+    padding: 1px 2px;
+    width: 464px;
+    border-radius: 3px;
+    min-height: 26px;
+    transition: 0.4s;
+    position: relative;
+    z-index: 1;
+    cursor: text;
+    background-color: #fff;
+}
+.attachments a {
+    float: left;
+    width: 160px;
+    height: 140px;
+    overflow: hidden;
+    border: 1px solid;
+    color: #ccc;
+    margin: 2px;
+    border-radius: 3px;
+}
+.hideselect i.selectTo {
+    width: 30px;
+    height: 28px;
+    display: block;
+    float: left;
+}
+.hideselect select {
+    float: left;
+}
+.hideselect {
+    float: left;
+    margin-right: 24px;
+    padding-right: 20px;
+    border-right: 1px solid #eee;
+}
+fieldset.public input[type="radio"] {
+    display: none;
+}
+label.btn {
+    width: 120px;
+    margin-left: -5px;
+}
+.hideselect input {
+    float: left;
+}
+.hideselect i.selectTo:after {
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid;
+    border-top: 2px solid;
+    content: '';
+    color: #942a25;
+    float: left;
+    transform: rotate(45deg);
+    margin-top: 9px;
+    margin-left: 8px;
+}
+input[type="file"] {
+    border: 1px solid #cacaca;
+    line-height: 3px;
+    padding: 7px 0px 0px 5px;
+    border-radius: 2px;
+    background-color: #f7f7f7;
+    cursor: pointer;
+}
+.img {
+    float: left;
+    position: relative;
+    margin-left: 4px;
+}
+.img span.icon-unpublish {
+    position: absolute;
+    right: -4px;
+    cursor: pointer;
+    top: -2px;
+}
+.img span.icon-unpublish:before {
+    font-size: 18px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+.edit .faike_input {
+    border-color: #3071a9;
+    transition: 0.4s;
+}
+select.catselect {
+    position: absolute;
+    width: 470px;
+    bottom: -116px;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.2);
+    display: none;
+    padding-top: 8px;
+    outline: none;
+}
+.edit select.catselect {
+    display: unset;
+}
+hr {
+    width: 100%;
+}
+option[selected] {
+    display: none;
+}
+div#prod_label {
+    float: left;
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 1px solid #eee;
+	margin-bottom: 20px;
+}
+fieldset.public {
+    float: left;
+    border-right: 1px solid #eee;
+    padding-right: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.field-calendar {
+    float: left;
+}
+div#sidebar {
+    background-color: #f0f0f0;
+    min-height: 770px;
+}
+form textarea {
+    width: calc(100% - 15px);
+    height: 200px;
+    margin-bottom: 20px;
+    resize: none;
+}
+form input[type="file"] {
+    padding: 7px 0px 0px 7px;
+    line-height: unset;
+}
+div#rating {
+    float: left;
+    margin-left: 20px;
+    padding-left: 20px;
+    height: 24px;
+    border-left: 1px solid #d7d7d7;
+    margin-top: -6px;
+    padding-top: 6px;
+}
+div#rating div#stars {
+    float: left;
+    margin-left: 10px;
+    margin-top: -5px;
+}
+div#comment label {
+    float: left;
+    margin-bottom: 18px;
+}

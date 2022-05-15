@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+	<name>COM_JKREVIEW</name>
+	<author>Evgeny Ribackov</author>
+	<creationDate>November 2020</creationDate>
+	<copyright>PapaWEB</copyright>
+	<license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>salitygen@yandex.ru</authorEmail> 
+	<authorUrl>papaweb.ru</authorUrl>
+	<version>1.1.1</version>
+	<description>COM_JKREVIEW_XML_DESCRIPTION</description>
+	<scriptfile>install.php</scriptfile>
+	<install> <!-- Runs on install -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall> <!-- Runs on uninstall -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>controller.php</filename>
+		<filename>jkreview.php</filename>
+		<folder>helpers</folder>
+		<folder>views</folder>
+		<folder>language</folder>
+	</files>
+	<languages folder="site">
+		<language tag="en-GB">language/ru-RU.com_jkreview.ini</language>
+	</languages>
+	<administration>
+		<menu>COM_JKREVIEW</menu>
+		<files folder="admin">
+			<filename>index.html</filename>
+			<filename>config.xml</filename>
+			<filename>jkreview.xml</filename>
+			<filename>controller.php</filename>
+			<filename>jkreview.php</filename>
+			<folder>helpers</folder>
+			<folder>sql</folder>
+			<folder>assets</folder>
+			<folder>views</folder>
+			<folder>language</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/ru-RU.com_jkreview.ini</language>
+			<language tag="en-GB">language/ru-RU.com_jkreview.sys.ini</language>
+		</languages>
+	</administration>
+	<plugins folder="plugins">
+		<plugin name="jkreview" group="content" enable="1"/>
+	</plugins>
+	<updateservers>    
+    	<server type="extension" priority="1" name="JKreview Update">
+    		<![CDATA[https://papaweb.ru/index.php?option=com_mediastore&task=pluginTask&plugin=joomla&subtask=server&id=1]]>
+    	</server>
+ 	</updateservers>
+</extension>
+
