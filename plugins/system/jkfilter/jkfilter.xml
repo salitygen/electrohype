@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.8" type="plugin" group="system" method="upgrade">
+	<name>PLG_JKFILTER</name>
+	<author>SalityGEN</author>
+	<creationDate>04.02.2022</creationDate>
+	<copyright>(C) 2019-2022 Evgeny Ribakov. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>salitygen@yandex.ru</authorEmail>
+	<authorUrl>https://localh0st.ru</authorUrl>
+	<version>1.0.0</version>
+	<description>PLG_JKFILTER_XML_DESCRIPTION</description>
+	<files>
+		<folder>language</folder>
+		<folder>src</folder>
+		<filename plugin="jkfilter">jkfilter.php</filename>
+	</files>
+	<languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_system_jkfilter.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_jkfilter.sys.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_system_jkfilter.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_system_jkfilter.sys.ini</language>
+    </languages>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">install.mysql.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
+		</sql>
+	</uninstall>
+</extension>
