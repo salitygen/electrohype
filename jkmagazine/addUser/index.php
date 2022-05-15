@@ -23,26 +23,29 @@ $container->alias('session.web', 'session.web.site')
 	->alias(\Joomla\Session\Session::class, 'session.web.site')
 	->alias(\Joomla\Session\SessionInterface::class, 'session.web.site');
 $app = $container->get(\Joomla\CMS\Application\SiteApplication::class);
-$session = $container->get(\Joomla\CMS\Session\Session::class);
 $mainframe = \Joomla\CMS\Factory::getApplication('site');
+$user = &JFactory::getUser();
+
+$db = &JFactory::getDbo();
 jimport('joomla.plugin.helper');
 
 use Joomla\CMS\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Factory;
 
-if(empty($session->get('counter'))){
-	$session->set('counter','0');
+if(empty($_SESSION['counter'])){
+	$_SESSION['counter'] = 0;
 }
 
 $antispam = true;
-if(!empty($session->get('verify_is_ok')) 
-	&& !empty($session->get('verify_code')) 
+if(!empty($_SESSION['verify_is_ok']) 
+	&& !empty($_SESSION['verify_code']) 
 	&& isset($_POST['username']) 
 	&& isset($_POST['password']) 
 	&& isset($_POST['verify_code'])){
-	if($session->get('verify_is_ok') == $_POST['username']){
+	if($_SESSION['verify_is_ok'] == $_POST['username']){
 		if(!isset($_POST['get_code'])){
-			if(sanitize($_POST['verify_code']) == $session->get('verify_code')){
+			if(sanitize($_POST['verify_code']) == $_SESSION['verify_code']){
 				$antispam = false;
 			}
 		}
@@ -51,10 +54,10 @@ if(!empty($session->get('verify_is_ok'))
 
 if($antispam){
 	require_once JPATH_BASE . '/jkmagazine/addUser/lib/antispam.php';
-	if($session->get('counter') < 10 && !$block){
-		$session->set('counter',(int)$session->get('counter')+1);
+	if($_SESSION['counter'] < 10 && !$block){
+		$_SESSION['counter'] = (int)$_SESSION['counter']+1;
 	}else{
-		die(json_encode(array('status'=>'Error','code'=>'0','annotation'=>'Spam detect')));
+		print json_encode(array('status'=>'Error','code'=>'0','annotation'=>'Spam detect'));
 		exit();
 	}
 }
@@ -69,13 +72,12 @@ if(isset($_POST['get_code'])){
 
 		if(empty($userId) || $userId == 0){
 			
-			$session->set('verify_name',$name);
-			$session->set('verify_phone',$phone);
-			$session->set('verify_code',rand(100106,990990));
-			
+			$_SESSION['verify_name'] = $name;
+			$_SESSION['verify_phone'] = $phone;
+			$_SESSION['verify_code'] = rand(100106,990990);
 
 			// Messages to Telegram START
-			/* $result = message_to_telegram($session->get('verify_code'));
+			$result = message_to_telegram($_SESSION['verify_code']);
 			$result = json_decode($result);
 			if(isset($result->ok)){
 				if($result->ok){
@@ -85,13 +87,13 @@ if(isset($_POST['get_code'])){
 				}
 			}else{
 				$result->status_code = 'Error';
-			} */
+			}
+			
 			// Messages to Telegram END
 			
-			
 			// Messages to SMSRU START
-			$result = message_to_smsru($phone,$session->get('verify_code'));
-			$result = json_decode($result)->sms->$phone;
+			//$result = message_to_smsru($phone,$_SESSION['verify_code']);
+			//$result = json_decode($result)->sms->$phone;
 			// Messages to SMSRU END
 			
 			
@@ -102,7 +104,7 @@ if(isset($_POST['get_code'])){
 			}
 			
 		}else{
-			$session->set('verify_code',rand(100106,990990));
+			$_SESSION['verify_code'] = rand(100106,990990);
 			print json_encode(array('status'=>'Error','code'=>'4','annotation'=>'Such an account already exists','phone'=>phone_format($phone)));
 		}
 		
@@ -112,25 +114,25 @@ if(isset($_POST['get_code'])){
 
 }else{
 
-	if(isset($_POST['check_code']) && !empty($session->get('verify_code'))){
+	if(isset($_POST['check_code']) && !empty($_SESSION['verify_code'])){
 		
 		$check_code = sanitize($_POST['check_code']);
-		if($check_code == $session->get('verify_code')){
-			$session->set('verify_is_ok',phone_format($session->get('verify_phone')));
-			print json_encode(array('status'=>'ok','phone'=>phone_format($session->get('verify_phone'))));
+		if($check_code == $_SESSION['verify_code']){
+			$_SESSION['verify_is_ok'] =	phone_format($_SESSION['verify_phone']);
+			print json_encode(array('status'=>'ok','phone'=>phone_format($_SESSION['verify_phone'])));
 		}else{
-			print json_encode(array('status'=>'Error','code'=>'6','annotation'=>'Verify code is invalid','phone'=>phone_format($session->get('verify_phone'))));
+			print json_encode(array('status'=>'Error','code'=>'6','annotation'=>'Verify code is invalid','phone'=>phone_format($_SESSION['verify_phone'])));
 		}
 		
 	}else{
 		
-		if(isset($_POST['verify_code']) && !empty($session->get('verify_code'))){
-			if(sanitize($_POST['verify_code']) == $session->get('verify_code')){
+		if(isset($_POST['verify_code']) && !empty($_SESSION['verify_code'])){
+			if(sanitize($_POST['verify_code']) == $_SESSION['verify_code']){
 				if(isset($_POST['password']) && isset($_POST['confirm_password'])){
 					if($_POST['password'] == $_POST['confirm_password']){
 						
-						$name = $session->get('verify_name');
-						$phone = (string)$session->get('verify_phone');
+						$name = $_SESSION['verify_name'];
+						$phone = (string)$_SESSION['verify_phone'];
 						$userId = getUserId($phone);
 						
 						if(!empty($_POST['password'])){
@@ -140,7 +142,7 @@ if(isset($_POST['get_code'])){
 						}
 						
 						$crypt = UserHelper::hashPassword($mypassword);
-						$session->set('verify_code',rand(100106,990990));
+						$_SESSION['verify_code'] = rand(100106,990990);
 						
 						if(empty($userId) || $userId == 0){
 							
@@ -159,27 +161,49 @@ if(isset($_POST['get_code'])){
 							$result = $mainframe->login($credentials);
 							
 							if($result){
+								
+								$user = &JFactory::getUser();
+								
+								if($user->id !== 0){
+									$field = new stdClass();
+									$field->field_id = 109;
+									$field->item_id = $user->id;
+									$field->value = json_encode($_SESSION['cart']);
+									$db->insertObject('#__fields_values',$field);
+									$field->field_id = 110;
+									$field->item_id = $user->id;
+									$field->value = json_encode($_SESSION['favorites']);
+									$db->insertObject('#__fields_values',$field);
+									$field->field_id = 111;
+									$field->item_id = $user->id;
+									$field->value = json_encode($_SESSION['compare']);
+									$db->insertObject('#__fields_values',$field);
+									$field->field_id = 112;
+									$field->item_id = $user->id;
+									$field->value = json_encode($_SESSION['latest']);
+									$db->insertObject('#__fields_values',$field);
+								}
+								
 								header('Location: /profile/');
+								
 							}else{
-								print json_encode(array('status'=>'Error','code'=>'7','annotation'=>'Error Autorization','phone'=>phone_format($session->get('verify_phone'))));
+								print json_encode(array('status'=>'Error','code'=>'7','annotation'=>'Error Autorization','phone'=>phone_format($_SESSION['verify_phone'])));
 							}
-
 						}else{
 							header('Location: /profile/');
-							die();
+							exit();
 						}
-						
 					}else{
-						print json_encode(array('status'=>'Error','code'=>'8','annotation'=>'Password confirm invalid','phone'=>phone_format($session->get('verify_phone'))));
+						print json_encode(array('status'=>'Error','code'=>'8','annotation'=>'Password confirm invalid','phone'=>phone_format($_SESSION['verify_phone'])));
 					}
 				}else{
-					print json_encode(array('status'=>'Error','code'=>'9','annotation'=>'Password is empty','phone'=>phone_format($session->get('verify_phone'))));
+					print json_encode(array('status'=>'Error','code'=>'9','annotation'=>'Password is empty','phone'=>phone_format($_SESSION['verify_phone'])));
 				}
 			}else{
-				print json_encode(array('status'=>'Error','code'=>'6','annotation'=>'Verify code is invalid','phone'=>phone_format($session->get('verify_phone'))));
+				print json_encode(array('status'=>'Error','code'=>'6','annotation'=>'Verify code is invalid','phone'=>phone_format($_SESSION['verify_phone'])));
 			}
 		}else{
-			print json_encode(array('status'=>'Error','code'=>'6','annotation'=>'Verify code is empty','phone'=>phone_format($session->get('verify_phone'))));
+			print json_encode(array('status'=>'Error','code'=>'6','annotation'=>'Verify code is empty','phone'=>phone_format($_SESSION['verify_phone'])));
 		}
 	}
 }

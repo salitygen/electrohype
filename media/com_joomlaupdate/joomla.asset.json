@@ -10,52 +10,51 @@
       "type": "script",
       "uri": "com_joomlaupdate/admin-update-default.min.js",
       "dependencies": [
-        "core",
-        "jquery"
+        "com_joomlaupdate.admin-update-es5"
       ],
       "attributes": {
-        "defer": true
+        "type": "module"
       },
-      "version": "3d6c129acbaece9e88379bfb3adbb7c7e0c160c3"
-    },
-    {
-      "name": "com_joomlaupdate.encryption",
-      "type": "script",
-      "uri": "com_joomlaupdate/encryption.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "defer": true
-      },
-      "version": "a7dff7d44c6350fd0862533305561dbea34ad45c"
+      "version": "89d41a466091ff0a14c8958239b2ea0c5b4201ca"
     },
     {
       "name": "com_joomlaupdate.default",
       "type": "script",
       "uri": "com_joomlaupdate/default.min.js",
       "dependencies": [
-        "core",
-        "jquery"
+        "com_joomlaupdate.default-es5"
       ],
       "attributes": {
-        "defer": true
+        "type": "module"
       },
       "version": "18338f947cff76c0715b270d6a7cf58142e439de"
     },
     {
-      "name": "com_joomlaupdate.update",
+      "name": "com_joomlaupdate.admin-update-es5",
       "type": "script",
-      "uri": "com_joomlaupdate/update.min.js",
+      "uri": "com_joomlaupdate/admin-update-default-es5.min.js",
       "dependencies": [
         "core",
-        "jquery",
-        "com_joomlaupdate.encryption"
+        "bootstrap.modal"
       ],
       "attributes": {
-        "defer": true
+        "defer": true,
+        "nomodule": true
       },
-      "version": "7fb7aa971828d5ac4b31af2fac5168e4bb5cfa01"
+      "version": "c896862b76fff013dfa6faf92d34424c5279578c"
+    },
+    {
+      "name": "com_joomlaupdate.default-es5",
+      "type": "script",
+      "uri": "com_joomlaupdate/default-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      },
+      "version": "8ec95988925a64ef8665d65fadc4d4e87347d554"
     }
   ]
 }

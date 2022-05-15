@@ -33,14 +33,6 @@ if(empty($session->get('counter'))){
 	$session->set('counter','0');
 }
 
-// TODO DELETE!!!!!!!!!!!!!
-if(isset($_GET['clear'])){
-	file_put_contents(JPATH_BASE . '/jkmagazine/addUser/blocklist.json','');
-	$session->set('counter','0');
-	die('OK SUKA');
-}
-// TODO DELETE!!!!!!!!!!!!!
-
 $antispam = true;
 if(!empty($session->get('verify_is_ok')) 
 	&& !empty($session->get('verify_code')) 
@@ -61,7 +53,7 @@ if($antispam){
 	if($session->get('counter') < 10 && !$block){
 		$session->set('counter',(int)$session->get('counter')+1);
 	}else{
-		die(json_encode(array('status'=>'Error','code'=>'0','annotation'=>'Spam detect')));
+		print json_encode(array('status'=>'Error','code'=>'0','annotation'=>'Spam detect'));
 		exit();
 	}
 }
@@ -174,7 +166,7 @@ if(isset($_POST['get_code'])){
 
 						}else{
 							header('Location: /profile/');
-							die();
+							exit();
 						}
 						
 					}else{
