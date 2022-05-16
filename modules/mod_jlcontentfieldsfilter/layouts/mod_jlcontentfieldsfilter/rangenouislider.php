@@ -22,7 +22,7 @@ $moduleId = $displayData['moduleId'];
 $min = $displayData['min'];
 $max = $displayData['max'];
 $field = $displayData['field'];
-if(!empty($field->hidden)){
+if(!empty($field->hidden) || $max == $min){
 	return;
 }
 $label = JText::_($field->label);
@@ -40,35 +40,37 @@ $doc->addStyleSheet('/modules/mod_jlcontentfieldsfilter/assets/css/nouislider.mi
 $doc->addStyleSheet('/modules/mod_jlcontentfieldsfilter/assets/css/range.css');
 
 ?>
-<div class="jlmf-label ranges"><?php echo $label; ?></div>
-<div class="jlmf-list-2 range-sliders">
-	<div class="inputs">
-		<div class="pre">
-			<span><?php echo JText::_('MOD_JLCONTENTFIELDSFILTER_FROM');?></span>
-			<input
-					type="number"
-					placeholder="<?php echo $fromPlaceholder; ?>"
-					value="<?php echo $from ?>"
-					id="<?php echo $field->name.'-from-'.$moduleId; ?>"
-					name="jlcontentfieldsfilter[<?php echo $field->id; ?>][from]"
-					class="jlmf-input input-min"
-					data-min="<?php echo $min ?>"
-			/>
+<div class="jlmf-section">
+	<div class="jlmf-label ranges"><?php echo $label; ?></div>
+	<div class="jlmf-list-2 range-sliders">
+		<div class="inputs">
+			<div class="pre">
+				<span><?php echo JText::_('MOD_JLCONTENTFIELDSFILTER_FROM');?></span>
+				<input
+						type="number"
+						placeholder="<?php echo $fromPlaceholder; ?>"
+						value="<?php echo $from ?>"
+						id="<?php echo $field->name.'-from-'.$moduleId; ?>"
+						name="filter[<?php echo $field->id; ?>][from]"
+						class="jlmf-input input-min"
+						data-min="<?php echo $min ?>"
+				/>
+			</div>
+			<div class="pre">
+				<span><?php echo JText::_('MOD_JLCONTENTFIELDSFILTER_TO');?></span>
+				<input
+						type="number"
+						placeholder="<?php echo $toPlaceholder; ?>"
+						value="<?php echo $to ?>"
+						id="<?php echo $field->name.'-to-'.$moduleId; ?>"
+						name="filter[<?php echo $field->id; ?>][to]"
+						class="jlmf-input input-max"
+						data-max="<?php echo $min ?>"
+				/>
+			</div>
 		</div>
-		<div class="pre">
-			<span><?php echo JText::_('MOD_JLCONTENTFIELDSFILTER_TO');?></span>
-			<input
-					type="number"
-					placeholder="<?php echo $toPlaceholder; ?>"
-					value="<?php echo $to ?>"
-					id="<?php echo $field->name.'-to-'.$moduleId; ?>"
-					name="jlcontentfieldsfilter[<?php echo $field->id; ?>][to]"
-					class="jlmf-input input-max"
-					data-max="<?php echo $min ?>"
-			/>
+		<div class="jlmf-range-block">
+			<div class="jlmf-range" data-min="<?php echo $min ?>" data-max="<?php echo $max ?>" data-from="<?php echo $from ?>" data-to="<?php echo $to ?>"></div>
 		</div>
 	</div>
-    <div class="jlmf-range-block">
-        <div class="jlmf-range" data-min="<?php echo $min ?>" data-max="<?php echo $max ?>" data-from="<?php echo $from ?>" data-to="<?php echo $to ?>"></div>
-    </div>
 </div>

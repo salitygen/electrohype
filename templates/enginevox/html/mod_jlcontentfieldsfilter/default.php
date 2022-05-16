@@ -36,20 +36,17 @@ if ($params->get('enable_css', 1)) {
 
 <form id="mod-finder-searchform-<?php echo $module->id; ?>" action="<?php echo $action; ?>" method="<?php echo $form_method; ?>" class="form-search">
 	<div class="jlcontentfieldsfilter<?php echo $moduleclass_sfx; ?>">
-		
-		<?php foreach($fields as $v) : ?>
+
+		<?php foreach($fields as $k => $v) : ?>
 			<?php if($v):?>
-				<div class="jlmf-section">
-					<?php echo $v; ?>
-				</div>	
+			<?php echo $v; ?>
 			<?php endif;?>
+			<?php if($enableOrdering && $k == 5) : ?>
+			<?php echo $orderingSelect; ?>
+			<?php elseif($enableOrdering && $k == 14):?>
+			<?php //echo $orderingSelect; ?>
+			<?php endif; ?>
 		<?php endforeach; ?>
-		
-		<?php if($enableOrdering) : ?>
-		<div class="jlmf-section">
-            <?php echo $orderingSelect; ?>
-		</div>	
-        <?php endif; ?>
 		
 		<div class="jlmf-section">
 			<?php if (!$autho_send) : ?>
@@ -62,5 +59,5 @@ if ($params->get('enable_css', 1)) {
     <?php if($option == 'com_tags'){ ?>
     <input type="hidden" name="tag_category_id" value="<?php echo $catid; ?>">
     <?php } ?>
-    <input type="hidden" name="jlcontentfieldsfilter[is_filter]" value="1">
+    <!--input type="hidden" name="jlcontentfieldsfilter[is_filter]" value="1"-->
 </form>

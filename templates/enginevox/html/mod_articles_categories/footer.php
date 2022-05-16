@@ -19,7 +19,7 @@ $id     = $input->getInt('id');
 	</div>
 	<?php endif;?>
 	<ul class="nav menu mod-list">
-		<?php foreach($list as $cat):?>
+		<?php foreach($list as &$cat):?>
 		<li<?php if ($id == $cat->id && in_array($view, array('category', 'categories')) && $option == 'com_content') echo ' class="active"'; ?>>
 			<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($cat->id)); ?>">
 				<span><?php echo $cat->title;?></span>

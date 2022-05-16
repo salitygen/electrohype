@@ -19,7 +19,7 @@ $option = $input->getCmd('option');
 $view   = $input->getCmd('view');
 $id     = $input->getInt('id');
 
-foreach ($list as $item) : ?>
+foreach($list as &$item):?>
 	<li<?php if ($id == $item->id && in_array($view, array('category', 'categories')) && $option == 'com_content') echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
 		<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
 		<span><?php echo $item->title; ?></span>
@@ -32,7 +32,7 @@ foreach ($list as $item) : ?>
 			&& count($item->getChildren())) : ?>
 			<?php echo '<ul>'; ?>
 			<?php $temp = $list; ?>
-			<?php $list = $item->getChildren(); ?>
+			<?php $list = &$item->getChildren(); ?>
 			<?php require ModuleHelper::getLayoutPath('mod_articles_categories', $params->get('layout', 'default') . '_parentitems'); ?>
 			<?php $list = $temp; ?>
 			<?php echo '</ul>'; ?>

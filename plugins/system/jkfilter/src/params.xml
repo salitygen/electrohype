@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params">
+		<fieldset name="fieldparams" label="PLG_JKFILTER_PARAMS">
+			<field
+				name="field_template"
+				type="radio"
+				default="off"
+				label="PLG_JKFILTER_FIELD_TYPE"
+				description="PLG_JKFILTER_FIELD_TYPE_DESC"
+				class="btn-group">
+				<option value="off">PLG_JKFILTER_FIELD_IS_OFF</option>
+				<option value="checkbox">PLG_JKFILTER_FIELD_IS_CHECKBOX</option>
+				<option value="radio">PLG_JKFILTER_FIELD_IS_RADIO</option>
+				<option value="range">PLG_JKFILTER_FIELD_IS_RANGE</option>
+			</field>
+			<field
+				name="field_background"
+				type="radio"
+				default="off"
+				label="PLG_JKFILTER_FIELD_IS_BACKGROUND_TYPE"
+				description="PLG_JKFILTER_FIELD_IS_BACKGROUND_TYPE_DESC"
+				class="btn-group">
+				<option value="off">PLG_JKFILTER_FIELD_IS_BACKGROUND_TYPE_NONE</option>
+				<option value="color">PLG_JKFILTER_FIELD_IS_BACKGROUND_TYPE_COLOR</option>
+				<option value="image">PLG_JKFILTER_FIELD_IS_BACKGROUND_TYPE_IMAGE</option>
+			</field>
+			<field 
+				name="disabled_categories"
+				type="categoryedit"
+				extension="com_content"
+				default="0"
+				multiple="true"
+				label="PLG_JKFILTER_DISABLEDCATS"
+				description="PLG_JKFILTER_DISABLEDCATS_DESC"
+			/>
+		</fieldset>
+	</fields>
+</form>
+

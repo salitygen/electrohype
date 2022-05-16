@@ -10,24 +10,40 @@
 
 defined('_JEXEC') or die;
 
-if (!key_exists('options', $displayData))
-{
+if(!key_exists('options', $displayData)){
 	return;
 }
 
 $moduleId = $displayData['moduleId'];
 $options = $displayData['options'];
 $selected = $displayData['selected'];
+$field = $displayData['field'];
+$i = 1;
 
 if(!is_array($options) || !count($options)){
 	return;
 }
 
+if(empty($selected)){
+	$selected = 'created';
+}
 ?>
-<label class="jlmf-label" for="jlcontentfieldsfilter-ordering-<?php echo $moduleId; ?>"><?php echo JText::_('MOD_JLCONTENTFIELDSFILTER_ORDERING'); ?></label>
-<?php
-echo JHtml::_('select.genericlist', $options, 'jlcontentfieldsfilter[ordering]',
-    'class="jlmf-select" ', 'value', 'text', $selected, 'jlcontentfieldsfilter-ordering-'.$moduleId);
-?>
+
+<div class="jlmf-section ordering open">
+	<div class="jlmf-label"><?php echo JText::_('MOD_JLCONTENTFIELDSFILTER_ORDERING'); ?></div>
+	<div class="jlmf-list-1">
+	<?php foreach($options as $option):?>
+		<?php $checked = ($option->value == $selected) ? ' checked="checked"' : '';?>
+		<div class="radio">
+			<input type="radio" value="<?php echo $option->value; ?>" id="<?php echo 'options-'. $i.'-'.$moduleId; ?>" name="filter[ordering]"<?php echo $checked; ?> class="jlmf-checkbox"/>
+			<label class="jlmf-sublabel" for="<?php echo 'options-'. $i.'-'.$moduleId; ?>"><span></span><i><?php echo JText::_($option->text); ?></i></label>
+		</div>
+		<?php $i++;?>
+	<?php endforeach;?>
+	</div>
+</div>
+	
+	
+
 
 

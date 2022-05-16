@@ -1,8 +1,8 @@
-import { B as BaseComponent, S as SelectorEngine, i as isVisible, t as triggerTransitionEnd, E as EventHandler, M as Manipulator, a as typeCheckConfig, b as getNextActiveElement, r as reflow, c as isRTL, g as getElementFromSelector, d as defineJQueryPlugin } from './dom.js?1631567336';
+import { E as EventHandler, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, i as isVisible, t as triggerTransitionEnd, M as Manipulator, a as typeCheckConfig, g as getNextActiveElement, r as reflow, b as isRTL, c as getElementFromSelector } from './dom.js?5.1.3';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): carousel.js
+ * Bootstrap (v5.1.3): carousel.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -227,8 +227,12 @@ class Carousel extends BaseComponent {
   }
 
   _addTouchEventListeners() {
+    const hasPointerPenTouch = event => {
+      return this._pointerEvent && (event.pointerType === POINTER_TYPE_PEN || event.pointerType === POINTER_TYPE_TOUCH);
+    };
+
     const start = event => {
-      if (this._pointerEvent && (event.pointerType === POINTER_TYPE_PEN || event.pointerType === POINTER_TYPE_TOUCH)) {
+      if (hasPointerPenTouch(event)) {
         this.touchStartX = event.clientX;
       } else if (!this._pointerEvent) {
         this.touchStartX = event.touches[0].clientX;
@@ -241,7 +245,7 @@ class Carousel extends BaseComponent {
     };
 
     const end = event => {
-      if (this._pointerEvent && (event.pointerType === POINTER_TYPE_PEN || event.pointerType === POINTER_TYPE_TOUCH)) {
+      if (hasPointerPenTouch(event)) {
         this.touchDeltaX = event.clientX - this.touchStartX;
       }
 
@@ -266,7 +270,7 @@ class Carousel extends BaseComponent {
     };
 
     SelectorEngine.find(SELECTOR_ITEM_IMG, this._element).forEach(itemImg => {
-      EventHandler.on(itemImg, EVENT_DRAG_START, e => e.preventDefault());
+      EventHandler.on(itemImg, EVENT_DRAG_START, event => event.preventDefault());
     });
 
     if (this._pointerEvent) {

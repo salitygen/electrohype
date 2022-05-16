@@ -32,37 +32,37 @@ if(!is_array($options) || !count($options)){
 }
 
 ?>
+<div class="jlmf-section">
+	<div class="jlmf-label"><?php echo $label; ?></div>
+	<div class="jlmf-list-<?php echo $count_cols; ?>">
 
-<div class="jlmf-label"><?php echo $label; ?></div>
-<div class="jlmf-list-<?php echo $count_cols; ?>">
-
-    <?php
-    $i = 1;
-    $groups = array_chunk($options, ceil(count($options) / $count_cols));
-    foreach($groups as $options) {
-        echo '<div>';
-        foreach($options as $k => $v) {
-            if (!empty($v->hidden)) {
-                continue;
-            }
-            $checked = in_array($v->value, $value) ? ' checked="checked"' : '';
-    ?>
-    <div>
-        <input
-            type="radio"
-            value="<?php echo $v->value; ?>"
-            id="<?php echo $field->name.'-'. $i.'-'.$moduleId; ?>"
-            name="jlcontentfieldsfilter[<?php echo $field->id; ?>][]"<?php echo $checked; ?>
-            class="jlmf-radio"
-        />
-        <label class="jlmf-sublabel" for="<?php echo $field->name.'-'. $i.'-'.$moduleId; ?>"><?php echo JText::_($v->name); ?></label>
-    </div>
-    <?php
-            $i++;
-        }
-        echo '</div>';
-    }
-    ?>
+		<?php
+		$i = 1;
+		$groups = array_chunk($options, ceil(count($options) / $count_cols));
+		foreach($groups as $options) {
+			echo '<div>';
+			foreach($options as $k => $v) {
+				if (!empty($v->hidden)) {
+					continue;
+				}
+				$checked = in_array($v->value, $value) ? ' checked="checked"' : '';
+		?>
+		<div>
+			<input
+				type="radio"
+				value="<?php echo $v->value; ?>"
+				id="<?php echo $field->name.'-'. $i.'-'.$moduleId; ?>"
+				name="jlcontentfieldsfilter[<?php echo $field->id; ?>][]"<?php echo $checked; ?>
+				class="jlmf-radio"
+			/>
+			<label class="jlmf-sublabel" for="<?php echo $field->name.'-'. $i.'-'.$moduleId; ?>"><?php echo JText::_($v->name); ?></label>
+		</div>
+		<?php
+				$i++;
+			}
+			echo '</div>';
+		}
+		?>
+	</div>
+	<button type="button" class="jlmf-link" onclick="JlContentFieldsFilter.clearRadio(this);"><?php echo JText::_('MOD_JLCONTENTFIELDSFILTER_RADIO_RESET')?></button>
 </div>
-
-<button type="button" class="jlmf-link" onclick="JlContentFieldsFilter.clearRadio(this);"><?php echo JText::_('MOD_JLCONTENTFIELDSFILTER_RADIO_RESET')?></button>

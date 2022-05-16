@@ -1,8 +1,8 @@
-import { B as BaseComponent, E as EventHandler, d as defineJQueryPlugin } from './dom.js?1631567336';
+import { E as EventHandler, d as defineJQueryPlugin, B as BaseComponent } from './dom.js?5.1.3';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): button.js
+ * Bootstrap (v5.1.3): button.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */

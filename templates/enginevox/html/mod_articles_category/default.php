@@ -72,7 +72,7 @@ defined('_JEXEC') or die;
 												<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 											<?php endif; ?>
 									<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
-										<?php echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
+										<?php echo JText::sechof('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
 									<?php else : ?>
 										<?php echo JText::_('MOD_ARTICLES_CATEGORY_READ_MORE'); ?>
 										<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
@@ -139,7 +139,7 @@ defined('_JEXEC') or die;
 								<?php echo $readmore; ?>
 								<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 							<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
-								<?php echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
+								<?php echo JText::sechof('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
 							<?php else : ?>
 								<?php echo JText::_('MOD_ARTICLES_CATEGORY_READ_MORE'); ?>
 								<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>

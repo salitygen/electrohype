@@ -1,8 +1,8 @@
-import { B as BaseComponent, g as getElementFromSelector, E as EventHandler, d as defineJQueryPlugin } from './dom.js?1631567336';
+import { e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler } from './dom.js?5.1.3';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): alert.js
+ * Bootstrap (v5.1.3): alert.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -15,12 +15,8 @@ import { B as BaseComponent, g as getElementFromSelector, E as EventHandler, d a
 const NAME = 'alert';
 const DATA_KEY = 'bs.alert';
 const EVENT_KEY = `.${DATA_KEY}`;
-const DATA_API_KEY = '.data-api';
-const SELECTOR_DISMISS = '[data-bs-dismiss="alert"]';
 const EVENT_CLOSE = `close${EVENT_KEY}`;
 const EVENT_CLOSED = `closed${EVENT_KEY}`;
-const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
-const CLASS_NAME_ALERT = 'alert';
 const CLASS_NAME_FADE = 'fade';
 const CLASS_NAME_SHOW = 'show';
 /**
@@ -36,37 +32,26 @@ class Alert extends BaseComponent {
   } // Public
 
 
-  close(element) {
-    const rootElement = element ? this._getRootElement(element) : this._element;
+  close() {
+    const closeEvent = EventHandler.trigger(this._element, EVENT_CLOSE);
 
-    const customEvent = this._triggerCloseEvent(rootElement);
-
-    if (customEvent === null || customEvent.defaultPrevented) {
+    if (closeEvent.defaultPrevented) {
       return;
     }
 
-    this._removeElement(rootElement);
+    this._element.classList.remove(CLASS_NAME_SHOW);
+
+    const isAnimated = this._element.classList.contains(CLASS_NAME_FADE);
+
+    this._queueCallback(() => this._destroyElement(), this._element, isAnimated);
   } // Private
 
 
-  _getRootElement(element) {
-    return getElementFromSelector(element) || element.closest(`.${CLASS_NAME_ALERT}`);
-  }
+  _destroyElement() {
+    this._element.remove();
 
-  _triggerCloseEvent(element) {
-    return EventHandler.trigger(element, EVENT_CLOSE);
-  }
-
-  _removeElement(element) {
-    element.classList.remove(CLASS_NAME_SHOW);
-    const isAnimated = element.classList.contains(CLASS_NAME_FADE);
-
-    this._queueCallback(() => this._destroyElement(element), element, isAnimated);
-  }
-
-  _destroyElement(element) {
-    element.remove();
-    EventHandler.trigger(element, EVENT_CLOSED);
+    EventHandler.trigger(this._element, EVENT_CLOSED);
+    this.dispose();
   } // Static
 
 
@@ -74,20 +59,16 @@ class Alert extends BaseComponent {
     return this.each(function () {
       const data = Alert.getOrCreateInstance(this);
 
-      if (config === 'close') {
-        data[config](this);
+      if (typeof config !== 'string') {
+        return;
       }
+
+      if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
+        throw new TypeError(`No method named "${config}"`);
+      }
+
+      data[config](this);
     });
-  }
-
-  static handleDismiss(alertInstance) {
-    return function (event) {
-      if (event) {
-        event.preventDefault();
-      }
-
-      alertInstance.close(this);
-    };
   }
 
 }
@@ -98,7 +79,7 @@ class Alert extends BaseComponent {
  */
 
 
-EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DISMISS, Alert.handleDismiss(new Alert()));
+enableDismissTrigger(Alert, 'close');
 /**
  * ------------------------------------------------------------------------
  * jQuery

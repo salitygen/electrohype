@@ -1,235 +1,8 @@
-import { M as Manipulator, j as isElement, S as SelectorEngine, k as execute, r as reflow, f as getElement, a as typeCheckConfig, E as EventHandler, l as executeAfterTransition, B as BaseComponent, c as isRTL, g as getElementFromSelector, i as isVisible, d as defineJQueryPlugin } from './dom.js?1631567336';
+import { E as EventHandler, c as getElementFromSelector, i as isVisible, S as SelectorEngine, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, l as ScrollBarHelper, m as Backdrop, F as FocusTrap, M as Manipulator, a as typeCheckConfig, r as reflow, b as isRTL } from './dom.js?5.1.3';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): util/scrollBar.js
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- * --------------------------------------------------------------------------
- */
-const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
-const SELECTOR_STICKY_CONTENT = '.sticky-top';
-
-class ScrollBarHelper {
-  constructor() {
-    this._element = document.body;
-  }
-
-  getWidth() {
-    // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
-    const documentWidth = document.documentElement.clientWidth;
-    return Math.abs(window.innerWidth - documentWidth);
-  }
-
-  hide() {
-    const width = this.getWidth();
-
-    this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
-
-
-    this._setElementAttributes(this._element, 'paddingRight', calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
-
-
-    this._setElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight', calculatedValue => calculatedValue + width);
-
-    this._setElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight', calculatedValue => calculatedValue - width);
-  }
-
-  _disableOverFlow() {
-    this._saveInitialAttribute(this._element, 'overflow');
-
-    this._element.style.overflow = 'hidden';
-  }
-
-  _setElementAttributes(selector, styleProp, callback) {
-    const scrollbarWidth = this.getWidth();
-
-    const manipulationCallBack = element => {
-      if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
-        return;
-      }
-
-      this._saveInitialAttribute(element, styleProp);
-
-      const calculatedValue = window.getComputedStyle(element)[styleProp];
-      element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
-    };
-
-    this._applyManipulationCallback(selector, manipulationCallBack);
-  }
-
-  reset() {
-    this._resetElementAttributes(this._element, 'overflow');
-
-    this._resetElementAttributes(this._element, 'paddingRight');
-
-    this._resetElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight');
-
-    this._resetElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight');
-  }
-
-  _saveInitialAttribute(element, styleProp) {
-    const actualValue = element.style[styleProp];
-
-    if (actualValue) {
-      Manipulator.setDataAttribute(element, styleProp, actualValue);
-    }
-  }
-
-  _resetElementAttributes(selector, styleProp) {
-    const manipulationCallBack = element => {
-      const value = Manipulator.getDataAttribute(element, styleProp);
-
-      if (typeof value === 'undefined') {
-        element.style.removeProperty(styleProp);
-      } else {
-        Manipulator.removeDataAttribute(element, styleProp);
-        element.style[styleProp] = value;
-      }
-    };
-
-    this._applyManipulationCallback(selector, manipulationCallBack);
-  }
-
-  _applyManipulationCallback(selector, callBack) {
-    if (isElement(selector)) {
-      callBack(selector);
-    } else {
-      SelectorEngine.find(selector, this._element).forEach(callBack);
-    }
-  }
-
-  isOverflowing() {
-    return this.getWidth() > 0;
-  }
-
-}
-
-/**
- * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): util/backdrop.js
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * --------------------------------------------------------------------------
- */
-const Default$1 = {
-  isVisible: true,
-  // if false, we use the backdrop helper without adding any element to the dom
-  isAnimated: false,
-  rootElement: 'body',
-  // give the choice to place backdrop under different elements
-  clickCallback: null
-};
-const DefaultType$1 = {
-  isVisible: 'boolean',
-  isAnimated: 'boolean',
-  rootElement: '(element|string)',
-  clickCallback: '(function|null)'
-};
-const NAME$1 = 'backdrop';
-const CLASS_NAME_BACKDROP = 'modal-backdrop';
-const CLASS_NAME_FADE$1 = 'fade';
-const CLASS_NAME_SHOW$1 = 'show';
-const EVENT_MOUSEDOWN = `mousedown.bs.${NAME$1}`;
-
-class Backdrop {
-  constructor(config) {
-    this._config = this._getConfig(config);
-    this._isAppended = false;
-    this._element = null;
-  }
-
-  show(callback) {
-    if (!this._config.isVisible) {
-      execute(callback);
-      return;
-    }
-
-    this._append();
-
-    if (this._config.isAnimated) {
-      reflow(this._getElement());
-    }
-
-    this._getElement().classList.add(CLASS_NAME_SHOW$1);
-
-    this._emulateAnimation(() => {
-      execute(callback);
-    });
-  }
-
-  hide(callback) {
-    if (!this._config.isVisible) {
-      execute(callback);
-      return;
-    }
-
-    this._getElement().classList.remove(CLASS_NAME_SHOW$1);
-
-    this._emulateAnimation(() => {
-      this.dispose();
-      execute(callback);
-    });
-  } // Private
-
-
-  _getElement() {
-    if (!this._element) {
-      const backdrop = document.createElement('div');
-      backdrop.className = CLASS_NAME_BACKDROP;
-
-      if (this._config.isAnimated) {
-        backdrop.classList.add(CLASS_NAME_FADE$1);
-      }
-
-      this._element = backdrop;
-    }
-
-    return this._element;
-  }
-
-  _getConfig(config) {
-    config = { ...Default$1,
-      ...(typeof config === 'object' ? config : {})
-    }; // use getElement() with the default "body" to get a fresh Element on each instantiation
-
-    config.rootElement = getElement(config.rootElement);
-    typeCheckConfig(NAME$1, config, DefaultType$1);
-    return config;
-  }
-
-  _append() {
-    if (this._isAppended) {
-      return;
-    }
-
-    this._config.rootElement.appendChild(this._getElement());
-
-    EventHandler.on(this._getElement(), EVENT_MOUSEDOWN, () => {
-      execute(this._config.clickCallback);
-    });
-    this._isAppended = true;
-  }
-
-  dispose() {
-    if (!this._isAppended) {
-      return;
-    }
-
-    EventHandler.off(this._element, EVENT_MOUSEDOWN);
-
-    this._element.remove();
-
-    this._isAppended = false;
-  }
-
-  _emulateAnimation(callback) {
-    executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
-  }
-
-}
-
-/**
- * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): modal.js
+ * Bootstrap (v5.1.3): modal.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -259,7 +32,6 @@ const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY}`;
 const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
 const EVENT_SHOW = `show${EVENT_KEY}`;
 const EVENT_SHOWN = `shown${EVENT_KEY}`;
-const EVENT_FOCUSIN = `focusin${EVENT_KEY}`;
 const EVENT_RESIZE = `resize${EVENT_KEY}`;
 const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY}`;
 const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY}`;
@@ -270,10 +42,10 @@ const CLASS_NAME_OPEN = 'modal-open';
 const CLASS_NAME_FADE = 'fade';
 const CLASS_NAME_SHOW = 'show';
 const CLASS_NAME_STATIC = 'modal-static';
+const OPEN_SELECTOR = '.modal.show';
 const SELECTOR_DIALOG = '.modal-dialog';
 const SELECTOR_MODAL_BODY = '.modal-body';
 const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="modal"]';
-const SELECTOR_DATA_DISMISS = '[data-bs-dismiss="modal"]';
 /**
  * ------------------------------------------------------------------------
  * Class Definition
@@ -286,6 +58,7 @@ class Modal extends BaseComponent {
     this._config = this._getConfig(config);
     this._dialog = SelectorEngine.findOne(SELECTOR_DIALOG, this._element);
     this._backdrop = this._initializeBackDrop();
+    this._focustrap = this._initializeFocusTrap();
     this._isShown = false;
     this._ignoreBackdropClick = false;
     this._isTransitioning = false;
@@ -335,7 +108,6 @@ class Modal extends BaseComponent {
 
     this._setResizeEvent();
 
-    EventHandler.on(this._element, EVENT_CLICK_DISMISS, SELECTOR_DATA_DISMISS, event => this.hide(event));
     EventHandler.on(this._dialog, EVENT_MOUSEDOWN_DISMISS, () => {
       EventHandler.one(this._element, EVENT_MOUSEUP_DISMISS, event => {
         if (event.target === this._element) {
@@ -347,11 +119,7 @@ class Modal extends BaseComponent {
     this._showBackdrop(() => this._showElement(relatedTarget));
   }
 
-  hide(event) {
-    if (event && ['A', 'AREA'].includes(event.target.tagName)) {
-      event.preventDefault();
-    }
-
+  hide() {
     if (!this._isShown || this._isTransitioning) {
       return;
     }
@@ -374,7 +142,7 @@ class Modal extends BaseComponent {
 
     this._setResizeEvent();
 
-    EventHandler.off(document, EVENT_FOCUSIN);
+    this._focustrap.deactivate();
 
     this._element.classList.remove(CLASS_NAME_SHOW);
 
@@ -389,14 +157,9 @@ class Modal extends BaseComponent {
 
     this._backdrop.dispose();
 
-    super.dispose();
-    /**
-     * `document` has 2 events `EVENT_FOCUSIN` and `EVENT_CLICK_DATA_API`
-     * Do not move `document` in `htmlElements` array
-     * It will remove `EVENT_CLICK_DATA_API` event that should remain
-     */
+    this._focustrap.deactivate();
 
-    EventHandler.off(document, EVENT_FOCUSIN);
+    super.dispose();
   }
 
   handleUpdate() {
@@ -409,6 +172,12 @@ class Modal extends BaseComponent {
       isVisible: Boolean(this._config.backdrop),
       // 'static' option will be translated to true, and booleans will keep their value
       isAnimated: this._isAnimated()
+    });
+  }
+
+  _initializeFocusTrap() {
+    return new FocusTrap({
+      trapElement: this._element
     });
   }
 
@@ -428,7 +197,7 @@ class Modal extends BaseComponent {
 
     if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
       // Don't move modal's DOM position
-      document.body.appendChild(this._element);
+      document.body.append(this._element);
     }
 
     this._element.style.display = 'block';
@@ -451,13 +220,9 @@ class Modal extends BaseComponent {
 
     this._element.classList.add(CLASS_NAME_SHOW);
 
-    if (this._config.focus) {
-      this._enforceFocus();
-    }
-
     const transitionComplete = () => {
       if (this._config.focus) {
-        this._element.focus();
+        this._focustrap.activate();
       }
 
       this._isTransitioning = false;
@@ -467,16 +232,6 @@ class Modal extends BaseComponent {
     };
 
     this._queueCallback(transitionComplete, this._dialog, isAnimated);
-  }
-
-  _enforceFocus() {
-    EventHandler.off(document, EVENT_FOCUSIN); // guard against infinite focus loop
-
-    EventHandler.on(document, EVENT_FOCUSIN, event => {
-      if (document !== event.target && this._element !== event.target && !this._element.contains(event.target)) {
-        this._element.focus();
-      }
-    });
   }
 
   _setEscapeEvent() {
@@ -653,10 +408,18 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (
         this.focus();
       }
     });
-  });
+  }); // avoid conflict when clicking moddal toggler while another one is open
+
+  const allReadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
+
+  if (allReadyOpen) {
+    Modal.getInstance(allReadyOpen).hide();
+  }
+
   const data = Modal.getOrCreateInstance(target);
   data.toggle(this);
 });
+enableDismissTrigger(Modal);
 /**
  * ------------------------------------------------------------------------
  * jQuery
@@ -825,4 +588,4 @@ if (Joomla && Joomla.getOptions) {
   }
 }
 
-export { Backdrop as B, Modal as M, ScrollBarHelper as S };
+export { Modal as M };

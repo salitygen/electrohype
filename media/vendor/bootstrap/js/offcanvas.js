@@ -1,10 +1,9 @@
-import { B as BaseComponent, E as EventHandler, M as Manipulator, a as typeCheckConfig, g as getElementFromSelector, h as isDisabled, i as isVisible, S as SelectorEngine, d as defineJQueryPlugin } from './dom.js?1631567336';
-import { S as ScrollBarHelper, B as Backdrop } from './modal.js';
+import { E as EventHandler, c as getElementFromSelector, j as isDisabled, i as isVisible, S as SelectorEngine, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, l as ScrollBarHelper, M as Manipulator, a as typeCheckConfig, m as Backdrop, F as FocusTrap } from './dom.js?5.1.3';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): offcanvas.js
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * Bootstrap (v5.1.3): offcanvas.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
 /**
@@ -30,16 +29,14 @@ const DefaultType = {
   scroll: 'boolean'
 };
 const CLASS_NAME_SHOW = 'show';
+const CLASS_NAME_BACKDROP = 'offcanvas-backdrop';
 const OPEN_SELECTOR = '.offcanvas.show';
 const EVENT_SHOW = `show${EVENT_KEY}`;
 const EVENT_SHOWN = `shown${EVENT_KEY}`;
 const EVENT_HIDE = `hide${EVENT_KEY}`;
 const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
-const EVENT_FOCUSIN = `focusin${EVENT_KEY}`;
 const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
-const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY}`;
 const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY}`;
-const SELECTOR_DATA_DISMISS = '[data-bs-dismiss="offcanvas"]';
 const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="offcanvas"]';
 /**
  * ------------------------------------------------------------------------
@@ -53,6 +50,7 @@ class Offcanvas extends BaseComponent {
     this._config = this._getConfig(config);
     this._isShown = false;
     this._backdrop = this._initializeBackDrop();
+    this._focustrap = this._initializeFocusTrap();
 
     this._addEventListeners();
   } // Getters
@@ -91,8 +89,6 @@ class Offcanvas extends BaseComponent {
 
     if (!this._config.scroll) {
       new ScrollBarHelper().hide();
-
-      this._enforceFocusOnElement(this._element);
     }
 
     this._element.removeAttribute('aria-hidden');
@@ -104,6 +100,10 @@ class Offcanvas extends BaseComponent {
     this._element.classList.add(CLASS_NAME_SHOW);
 
     const completeCallBack = () => {
+      if (!this._config.scroll) {
+        this._focustrap.activate();
+      }
+
       EventHandler.trigger(this._element, EVENT_SHOWN, {
         relatedTarget
       });
@@ -123,7 +123,7 @@ class Offcanvas extends BaseComponent {
       return;
     }
 
-    EventHandler.off(document, EVENT_FOCUSIN);
+    this._focustrap.deactivate();
 
     this._element.blur();
 
@@ -155,8 +155,9 @@ class Offcanvas extends BaseComponent {
   dispose() {
     this._backdrop.dispose();
 
+    this._focustrap.deactivate();
+
     super.dispose();
-    EventHandler.off(document, EVENT_FOCUSIN);
   } // Private
 
 
@@ -171,6 +172,7 @@ class Offcanvas extends BaseComponent {
 
   _initializeBackDrop() {
     return new Backdrop({
+      className: CLASS_NAME_BACKDROP,
       isVisible: this._config.backdrop,
       isAnimated: true,
       rootElement: this._element.parentNode,
@@ -178,19 +180,13 @@ class Offcanvas extends BaseComponent {
     });
   }
 
-  _enforceFocusOnElement(element) {
-    EventHandler.off(document, EVENT_FOCUSIN); // guard against infinite focus loop
-
-    EventHandler.on(document, EVENT_FOCUSIN, event => {
-      if (document !== event.target && element !== event.target && !element.contains(event.target)) {
-        element.focus();
-      }
+  _initializeFocusTrap() {
+    return new FocusTrap({
+      trapElement: this._element
     });
-    element.focus();
   }
 
   _addEventListeners() {
-    EventHandler.on(this._element, EVENT_CLICK_DISMISS, SELECTOR_DATA_DISMISS, () => this.hide());
     EventHandler.on(this._element, EVENT_KEYDOWN_DISMISS, event => {
       if (this._config.keyboard && event.key === ESCAPE_KEY) {
         this.hide();
@@ -251,6 +247,7 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (
   data.toggle(this);
 });
 EventHandler.on(window, EVENT_LOAD_DATA_API, () => SelectorEngine.find(OPEN_SELECTOR).forEach(el => Offcanvas.getOrCreateInstance(el).show()));
+enableDismissTrigger(Offcanvas);
 /**
  * ------------------------------------------------------------------------
  * jQuery
