@@ -62,7 +62,7 @@ foreach($options as $option){
 				name="filter[<?php echo $field->id; ?>][]"<?php echo $checked; ?>
 				class="jlmf-checkbox"
 			/>
-			<label class="jlmf-sublabel" for="<?php echo $field->name.'-'. $i.'-'.$moduleId; ?>"><span></span><i><?php echo JText::_($v->name);?>&nbsp;<b>(<?php echo JText::_($v->counter);?>)</b></i></label>
+			<label class="jlmf-sublabel" for="<?php echo $field->name.'-'. $i.'-'.$moduleId; ?>"><span></span><i><?php echo JText::_($v->name);?></i></label>
 		</div>
 		<?php
 				$i++;
