@@ -1,8 +1,6 @@
 <?php
 
 defined('_JEXEC') or die;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 //define(MRH_PASS_1,'ijgUs3fQ4Y62aejvwT6z'); // Боевой
@@ -22,10 +20,10 @@ define(SNO,'osn');
 //usn_income_outcome – упрощенная СН (доходы минус расходы);
 //envd – единый налог на вмененный доход;
 
-$uri 		= JUri::getInstance(); 
-$db 		= Factory::getDbo();
-$input		= Factory::getApplication()->input;
-$session	= Factory::getSession();
+$uri 		= &JUri::getInstance(); 
+$user 		= &JFactory::getUser();
+$db 		= &JFactory::getDbo();
+$input		= &JFactory::getApplication()->input;
 $order		= new stdClass();
 $totalPrice = 0;
 $tax 		= 0;
@@ -43,7 +41,7 @@ $order->order_status 	= 0;
 
 if(!empty($order->order_products)){
 	
-	foreach($order->order_products as $k => $val){
+	foreach($order->order_products as $k => &$val){
 		$arr[] = (int)preg_replace('/[^0-9]/','',strip_data($k));
 	}
 	
@@ -59,13 +57,13 @@ if(!empty($order->order_products)){
 
 	if(!empty($results)){
 		
-		foreach($results as $n => $products){
+		foreach($results as $n => &$products){
 			
 			$results[$n]->images = json_decode($products->images)->image_intro; 
 			$results[$n]->params = explode(':',json_decode($products->params)->category_layout)[1]; 
 			$results[$n]->route = JRoute::_(ContentHelperRoute::getArticleRoute($products->id, $products->catid, $products->language));
 
-			foreach(FieldsHelper::getFields('com_content.article',$products,true) as $field){
+			foreach(FieldsHelper::getFields('com_content.article',$products) as &$field){
 				if($field->name == 'price'){
 					$results[$n]->price = (int)$field->value;
 				}
@@ -74,7 +72,7 @@ if(!empty($order->order_products)){
 				}
 			}
 			
-			foreach($order->order_products as $k => $val){
+			foreach($order->order_products as $k => &$val){
 				if($k == $products->id){
 					if((int)preg_replace('/[^0-9]/','',$val['count']) == 0){
 						$results[$n]->count = 1;
@@ -101,7 +99,15 @@ if(!empty($order->order_products)){
 		$order->order_pass 	= gen_password();
 		$order->order_create_date = date('Y-m-d');
 		$input->set('order','');
-		$session->clear('cart');
+		unset($_SESSION['cart']);
+		
+		if($user->id !== 0){
+			$field = new stdClass();
+			$field->field_id = 109;
+			$field->item_id = $user->id;
+			$field->value = 'null';
+			JFactory::getDbo()->updateObject('#__fields_values',$field,array('field_id','item_id'),true); 
+		}
 		
 		if($order->payment == 'Онлайн'){
 			$order->order_status = 1;
@@ -127,7 +133,7 @@ if(!empty($order->order_products)){
 			$products = json_decode($results->order_products);
 			$out_summ = $results->order_total;
 			
-			foreach($products as $k => $product){
+			foreach($products as $k => &$product){
 				$cheque['items'][$k]['name'] = $product->title;
 				$cheque['items'][$k]['quantity'] = $product->count;
 				$cheque['items'][$k]['sum'] = (float)$product->price * (int)$product->count;
@@ -165,16 +171,16 @@ if(!empty($order->order_products)){
 			$form .= '<input type="hidden" name="Email" value="">';
 			$form .= '</form>';
 			
-			print '<html><div style="display:none;">'.$form.'</div><script>function submitform(){document.getElementById("payform").submit();}window.onload = submitform;</script></html>';
+			echo '<html><div style="display:none;">'.$form.'</div><script>function submitform(){document.getElementById("payform").submit();}window.onload = submitform;</script></html>';
 			
 		}else{
 			header('Location: /order/?k='.base64_encode($order->order_phone .' (ಠ_ಠ) '. $order->order_pass));
 		}
 		
 	}else{
-		$session->clear('cart');
+		unset($_SESSION['cart']);
 		header('Location: /');
-		die();
+		exit();
 	}
 	
 }else{
@@ -205,15 +211,15 @@ if(!empty($order->order_products)){
 				header('Location: /order/?k='.base64_encode($order->order_phone .' (ಠ_ಠ) '. $order->order_pass));
 				
 			}else{
-				$session->clear('cart');
+				unset($_SESSION['cart']);
 				header('Location: /');
-				die();
+				exit();
 			}
 			
 		}else{
-			$session->clear('cart');
+			unset($_SESSION['cart']);
 			header('Location: /');
-			die();
+			exit();
 		}
 		
 	}else{
@@ -256,7 +262,7 @@ if(!empty($order->order_products)){
 			$products = json_decode($results->order_products);
 			$out_summ = $results->order_total;
 			
-			foreach($products as $k => $product){
+			foreach($products as $k => &$product){
 				$cheque['items'][$k]['name'] = $product->title;
 				$cheque['items'][$k]['quantity'] = $product->count;
 				$cheque['items'][$k]['sum'] = (float)$product->price * (int)$product->count;
@@ -424,7 +430,7 @@ function phone_format($phone){
 			<th style="text-align:right;">Цена</th>
 			<th style="text-align:right;">Итог</th>
 		</tr>
-		<?php foreach($order_products as $product):?>
+		<?php foreach($order_products as &$product):?>
 		<tr>
 			<td><?php echo '<a href="'.$product->route .'"><img src="'. $product->images .'" alt="'. $product->title .'"></a>';?></td>
 			<td style="text-align:left;"><?php echo '<a href="'. $product->route .'" title="'. $product->title .'">'.$product->title .'</a>';?></td>

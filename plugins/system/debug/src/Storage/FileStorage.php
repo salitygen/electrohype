@@ -36,7 +36,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 			Folder::create($this->dirname);
 		}
 
-		$dataStr = '<?php die(); ?>#(^-^)#' . json_encode($data);
+		$dataStr = '<?php exit(); ?>#(^-^)#' . json_encode($data);
 
 		File::write($this->makeFilename($id), $dataStr);
 	}
@@ -53,7 +53,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	public function get($id)
 	{
 		$dataStr = file_get_contents($this->makeFilename($id));
-		$dataStr = str_replace('<?php die(); ?>#(^-^)#', '', $dataStr);
+		$dataStr = str_replace('<?php exit(); ?>#(^-^)#', '', $dataStr);
 
 		return json_decode($dataStr, true) ?: [];
 	}

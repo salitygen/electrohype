@@ -2,7 +2,7 @@
 defined('_JEXEC') or die;
 ?>
 <table class="search-results<?php echo $this->pageclass_sfx; ?>">
-<?php foreach ($this->results as $result) : ?>
+<?php foreach($this->results as &$result) : ?>
 	<tr class="result-title" onclick="javascript:location.href='<?php echo JRoute::_($result->href);?>';" >
 		<?php $image = json_decode($result->images); ?>
 		<?php if($image != '' && $image->image_intro_caption != ''):?>
