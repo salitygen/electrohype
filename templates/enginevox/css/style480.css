@@ -1,0 +1,216 @@
+.center {
+    width: calc(100% - 20px);
+    max-width: 630px;
+    padding: 0 10px;
+}
+
+div#content ul.audio li {
+    width: calc(100% - 68px);
+    overflow: hidden;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 17px;
+}
+
+p.price {
+    width: calc(100% - 140px);
+    margin-left: 17px;
+    margin-top: 4px;
+    margin-bottom: 6px;
+    text-align: right;
+}
+
+p.old.price {
+    bottom: 73px;
+    right: 20px;
+    width: auto;
+}
+
+a.link {
+    height: 55px;
+    float: left;
+    width: calc(100% - 135px);
+    margin-left: 15px;
+    margin-top: 10px;
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 15px;
+}
+
+.availability {
+    margin-top: 0;
+    position: absolute;
+    bottom: 42px;
+    left: 169px;
+}
+
+li .rating {
+    position: absolute;
+    bottom: 18px;
+    left: 150px;
+}
+
+a.img {
+    height: 148px;
+    margin-top: 18px;
+    margin-bottom: 5px;
+    margin-top: 45px;
+    float: left;
+    width: 120px;
+    margin: 0;
+    margin-top: 5px;
+}
+
+.availability .currentMarket:before {
+    left: -18px;
+    top: 2px;
+}
+
+.h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    padding: 23px 4px 20px 54px;
+}
+
+.mod-banners__item.banneritem {
+    height: auto;
+    margin-bottom: 1px;
+}
+
+.mod-banners.bannergroup {
+    height: auto;
+    padding-bottom: 0;
+}
+
+.blog.home {
+    margin: 0 0 10px 0;
+}
+
+li .more {
+    width: auto;
+    float: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+div#footer .left ul {
+    clear: both;
+}
+
+div#footer .footerMenu nav.moduletable_menu.catalog ul.nav.menu.mod-list li,div#footer ul.menu li {
+    width: 100%;
+}
+
+nav.mod-breadcrumbs__wrapper ol li.breadcrumb-item:after {
+    margin-top: 2px;
+}
+
+div#content nav.moduletable_list_cat.similar li, div#content .mobile_related nav.moduletable_list_related li {
+    margin: 0 10px;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 17px;
+    margin-left: 0;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 16%);
+    border-radius: 10px;
+    margin-bottom: 7px;
+}
+
+div#content nav.moduletable_list_cat.similar, div#content .mobile_related nav.moduletable_list_related {
+    background: none;
+    box-shadow: none;
+    height: auto;
+    margin-bottom: 0;
+}
+
+nav.moduletable_list_cat.similar .h3,div#content .mobile_related nav.moduletable_list_related .h3 {
+    width: calc(100% - 69px);
+    margin-left: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+    position: relative;
+    background-color: #23262d;
+    padding: 25px 15px 20px 55px;
+    border-radius: 6px;
+    background-repeat: no-repeat;
+    margin-top: 0;
+    background-position: 18px 9px;
+    background-size: 23px;
+}
+
+div#content nav.moduletable_list_cat.similar ul, div#content .mobile_related nav.moduletable_list_related ul {
+    height: auto;
+    width: calc(100% - 40px);
+    overflow: unset;
+    float: none;
+    margin: 0 auto;
+}
+
+nav.moduletable_list_cat.similar li a.img, .mobile_related nav.moduletable_list_related a.img {
+    height: 148px;
+    margin-top: 18px;
+    margin-bottom: 5px;
+    margin-top: 45px;
+    float: left;
+    width: 120px;
+    margin: 0;
+    margin-top: 5px;
+}
+
+div#content nav.moduletable_list_cat.similar button.arrow, div#content .mobile_related nav.moduletable_list_related button.arrow {
+    top: calc(50% - 8px);
+    display: none;
+}
+
+div#content nav.moduletable_list_cat button.arrow.next, div#content .mobile_related nav.moduletable_list_related button.arrow.next {
+    left: -10px;
+}
+
+div#content nav.moduletable_list_cat button.arrow.prev {
+    right: -10px;
+}
+
+div#content .item .cartbox nav.moduletable_list_related ul li .more a.link {
+    width: 100%;
+    margin: 0;
+    border-bottom: 0;
+}
+
+div#content .item .cartbox nav.moduletable_list_related ul li .price {
+    margin-left: 0;
+}
+
+div#content .item .cartbox nav.moduletable_list_related ul li p.old.price {
+    left: 0;
+}
+
+div#content .cartbox nav.moduletable_list_related ul li .rating {
+    left: 5px;
+    top: 10px;
+}
+
+div#content .item .cartbox nav.moduletable_list_related ul li .availability {
+    left: 5px;
+    top: 40px;
+    height: auto;
+    float: left;
+    position: absolute;
+}
+
+nav.moduletable_list_related {
+    height: auto;
+}
+
+div#content nav.moduletable_list_related button.arrow {
+    top: calc(50% - 10px);
+}
+
+div#content nav.moduletable_list_cat.similar .slick-list, div#content .mobile_related nav.moduletable_list_related .slick-list {
+    overflow: unset;
+}

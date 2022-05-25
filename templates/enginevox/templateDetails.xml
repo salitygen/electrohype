@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "https://www.joomla.org/xml/dtd/2.5/template-install.dtd">
+<extension version="3.1" type="template" client="site">
+	<name>IT Master</name>
+	<version>1.0</version>
+	<creationDate>10/06/2019</creationDate>
+	<author>Evgeny Ribakov</author>
+	<authorEmail>salitygen@yandex.ru</authorEmail>
+	<copyright>Copyright (C) 2014 - 2019</copyright>
+	<files>
+		<filename>error.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>fonts</folder>
+		<folder>img</folder>
+		<folder>js</folder>
+	</files>
+	<positions>
+		<position>ConnectWithUs</position>
+		<position>topMenu</position>
+		<position>headText</position>
+		<position>headAlfresco</position>
+		<position>textAlfresco</position>
+		<position>textWalls</position>
+		<position>textCeiling</position>
+		<position>textPanelsAndDoors</position>
+		<position>textAdvantages</position>
+		<position>textTeam</position>
+		<position>textForm</position>
+		<position>textFooter</position>
+	</positions>
+</extension>
